@@ -1,1 +1,46 @@
-index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EarnBD - Earn Together</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f2f7f4;color:#183b2b}
+header{background:#087f4f;color:white;padding:25px 20px;border-radius:0 0 24px 24px}
+header h1{margin:0 0 8px;font-size:28px}
+header p{margin:0}
+main{padding:18px;max-width:600px;margin:auto}
+.balance{background:white;padding:22px;border-radius:18px;margin:12px 0;box-shadow:0 3px 12px #0000000a}
+.amount{font-size:30px;font-weight:bold;color:#087f4f;margin-top:8px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.item{background:white;padding:18px 12px;border-radius:16px;text-align:center}
+.item span{font-size:26px}
+.item h3{margin:10px 0 5px}
+button{border:0;border-radius:12px;padding:13px;background:#087f4f;color:white;font-size:15px;width:100%;margin-top:12px}
+.note{font-size:13px;color:#64756b;line-height:1.5}
+</style>
+</head>
+<body>
+<header>
+<h1>🌿 EarnBD</h1>
+<p>Welcome! Learn, complete tasks and earn.</p>
+</header>
+<main>
+<div class="balance">
+<div>Your Demo Balance</div>
+<div class="amount">৳ 0.00</div>
+<p class="note">This is a demo balance. No real money has been credited.</p>
+</div>
+<h2>Explore EarnBD</h2>
+<div class="grid">
+<div class="item"><span>📋</span><h3>Daily Tasks</h3><p class="note">Discover available tasks</p></div>
+<div class="item"><span>🎁</span><h3>Rewards</h3><p class="note">Explore reward opportunities</p></div>
+<div class="item"><span>👥</span><h3>Referral</h3><p class="note">Invite your friends</p></div>
+<div class="item"><span>💳</span><h3>Wallet</h3><p class="note">Balance and withdrawal status</p></div>
+</div>
+<button onclick="alert('Tasks are coming soon!')">Explore Tasks</button>
+<p class="note">EarnBD preview version. Real rewards and withdrawals are not enabled yet.</p>
+</main>
+</body>
+</html>
