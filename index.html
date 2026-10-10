@@ -2,23 +2,27 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>EarnBD - Earn Together</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#f2f7f4;color:#183b2b}
-header{background:#087f4f;color:white;padding:25px 20px;border-radius:0 0 24px 24px}
-header h1{margin:0 0 8px;font-size:28px}
-header p{margin:0}
+header{background:#087f4f;color:white;padding:24px 18px;border-radius:0 0 22px 22px}
+header h1{margin:0 0 8px}
 main{padding:18px;max-width:600px;margin:auto}
-.balance{background:white;padding:22px;border-radius:18px;margin:12px 0;box-shadow:0 3px 12px #0000000a}
-.amount{font-size:30px;font-weight:bold;color:#087f4f;margin-top:8px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.item{background:white;padding:18px 12px;border-radius:16px;text-align:center}
-.item span{font-size:26px}
-.item h3{margin:10px 0 5px}
-button{border:0;border-radius:12px;padding:13px;background:#087f4f;color:white;font-size:15px;width:100%;margin-top:12px}
+.balance,.item,.task{background:white;padding:18px;border-radius:16px;margin:12px 0;box-shadow:0 3px 12px #0000000a}
+.amount{font-size:28px;font-weight:bold;color:#087f4f;margin:8px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.item{text-align:center;margin:0;padding:16px 8px}
+.item span{font-size:25px}
+button{border:0;border-radius:10px;padding:12px;background:#087f4f;color:white;font-size:15px;width:100%;margin-top:10px}
+button:disabled{background:#91a69a}
 .note{font-size:13px;color:#64756b;line-height:1.5}
+.task h3{margin:0 0 8px}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+nav button{width:auto;flex:1;min-width:65px;font-size:13px}
+.page{display:none}
+.page.active{display:block}
 </style>
 </head>
 <body>
@@ -29,18 +33,97 @@ button{border:0;border-radius:12px;padding:13px;background:#087f4f;color:white;f
 <main>
 <div class="balance">
 <div>Your Demo Balance</div>
-<div class="amount">৳ 0.00</div>
-<p class="note">This is a demo balance. No real money has been credited.</p>
+<div class="amount"><span id="balance">0</span> Points</div>
+<p class="note">Demo points only. No real money has been credited.</p>
 </div>
+
+<nav>
+<button onclick="showPage('home')">Home</button>
+<button onclick="showPage('tasks')">Tasks</button>
+<button onclick="showPage('rewards')">Rewards</button>
+<button onclick="showPage('referral')">Referral</button>
+<button onclick="showPage('wallet')">Wallet</button>
+</nav>
+
+<section id="home" class="page active">
 <h2>Explore EarnBD</h2>
 <div class="grid">
-<div class="item"><span>📋</span><h3>Daily Tasks</h3><p class="note">Discover available tasks</p></div>
-<div class="item"><span>🎁</span><h3>Rewards</h3><p class="note">Explore reward opportunities</p></div>
-<div class="item"><span>👥</span><h3>Referral</h3><p class="note">Invite your friends</p></div>
-<div class="item"><span>💳</span><h3>Wallet</h3><p class="note">Balance and withdrawal status</p></div>
+<div class="item"><span>📋</span><h3>Daily Tasks</h3><p class="note">Complete demo tasks</p></div>
+<div class="item"><span>🎁</span><h3>Rewards</h3><p class="note">Coming soon</p></div>
+<div class="item"><span>👥</span><h3>Referral</h3><p class="note">Invite friends</p></div>
+<div class="item"><span>💳</span><h3>Wallet</h3><p class="note">Demo balance</p></div>
 </div>
-<button onclick="alert('Tasks are coming soon!')">Explore Tasks</button>
-<p class="note">EarnBD preview version. Real rewards and withdrawals are not enabled yet.</p>
+<button onclick="showPage('tasks')">Explore Tasks</button>
+</section>
+
+<section id="tasks" class="page">
+<h2>Daily Tasks</h2>
+<p class="note">These are test tasks created for preview. They do not pay real money.</p>
+<div id="taskList"></div>
+</section>
+
+<section id="rewards" class="page">
+<h2>Rewards</h2>
+<p>Reward options are not available yet.</p>
+<p class="note">Demo points cannot be exchanged for money.</p>
+</section>
+
+<section id="referral" class="page">
+<h2>Referral</h2>
+<p>Referral features are coming soon.</p>
+</section>
+
+<section id="wallet" class="page">
+<h2>Wallet</h2>
+<p>Your demo balance: <b><span id="walletBalance">0</span> Points</b></p>
+<p class="note">Withdrawals are not enabled. No real funds are stored here.</p>
+</section>
+
+<p class="note">EarnBD preview version. Real rewards and withdrawals are not enabled.</p>
 </main>
+
+<script>
+const tasks=[
+{id:"learn",title:"Learn about EarnBD",desc:"Read the app information.",points:10},
+{id:"safety",title:"Read safety tips",desc:"Learn how to protect your account.",points:15},
+{id:"welcome",title:"Complete welcome task",desc:"Explore the EarnBD home page.",points:5}
+];
+
+let state;
+try {
+ state=JSON.parse(localStorage.getItem("earnbd_demo")||'{"points":0,"done":[]}');
+ if(!Array.isArray(state.done)||!Number.isFinite(state.points)) throw Error();
+} catch(e) {
+ state={points:0,done:[]};
+}
+
+function save(){
+ localStorage.setItem("earnbd_demo",JSON.stringify(state));
+ render();
+}
+function render(){
+ document.getElementById("balance").textContent=state.points;
+ document.getElementById("walletBalance").textContent=state.points;
+ document.getElementById("taskList").innerHTML=tasks.map(t=>{
+ const done=state.done.includes(t.id);
+ return `<div class="task"><h3>${t.title}</h3>
+ <p>${t.desc}</p><p><b>Reward: ${t.points} demo points</b></p>
+ <button ${done?"disabled":""} onclick="claim('${t.id}')">${done?"Completed ✓":"Complete Task"}</button></div>`;
+ }).join("");
+}
+function claim(id){
+ const task=tasks.find(t=>t.id===id);
+ if(!task||state.done.includes(id))return;
+ state.done.push(id);
+ state.points+=task.points;
+ save();
+ alert("Demo task completed! Points added.");
+}
+function showPage(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+}
+render();
+</script>
 </body>
 </html>
