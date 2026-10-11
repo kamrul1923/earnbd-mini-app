@@ -1,128 +1,241 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#087f4f">
 <title>EarnBD - Earn Together</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f2f7f4;color:#183b2b}
-header{background:#087f4f;color:white;padding:24px 18px;border-radius:0 0 22px 22px}
+body{margin:0;font-family:Arial,sans-serif;background:#f1f7f3;color:#173c2b}
+header{background:linear-gradient(135deg,#087f4f,#10a66b);color:white;padding:25px 18px;border-radius:0 0 22px 22px}
 header h1{margin:0 0 8px}
-main{padding:18px;max-width:600px;margin:auto}
-.balance,.item,.task{background:white;padding:18px;border-radius:16px;margin:12px 0;box-shadow:0 3px 12px #0000000a}
+main{padding:16px;max-width:620px;margin:auto}
+.card,.balance,.task{background:white;padding:17px;border-radius:15px;margin:12px 0;box-shadow:0 3px 12px #0000000a}
 .amount{font-size:28px;font-weight:bold;color:#087f4f;margin:8px 0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.item{text-align:center;margin:0;padding:16px 8px}
-.item span{font-size:25px}
-button{border:0;border-radius:10px;padding:12px;background:#087f4f;color:white;font-size:15px;width:100%;margin-top:10px}
-button:disabled{background:#91a69a}
-.note{font-size:13px;color:#64756b;line-height:1.5}
-.task h3{margin:0 0 8px}
-nav{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
-nav button{width:auto;flex:1;min-width:65px;font-size:13px}
+.note{font-size:13px;color:#66786d;line-height:1.6}
+nav{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0}
+button{border:0;border-radius:10px;padding:12px;background:#087f4f;color:white;font-size:14px;cursor:pointer;margin:4px 0}
+nav button{flex:1;min-width:68px}
 .page{display:none}
 .page.active{display:block}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{background:white;padding:15px 8px;border-radius:14px;text-align:center}
+.tile span{font-size:25px}
+.tile h3{font-size:15px}
+.task h3{margin-top:0}
+button:disabled{background:#9aaca1}
+.link{overflow-wrap:anywhere;background:#edf6f0;padding:12px;border-radius:9px;font-size:13px;line-height:1.6}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.actions button{flex:1}
+.secondary{background:#dceee2;color:#145638}
+.status{font-size:13px;color:#087f4f;line-height:1.6}
+footer{padding:16px 4px 25px}
 </style>
 </head>
 <body>
 <header>
 <h1>🌿 EarnBD</h1>
-<p>Welcome! Learn, complete tasks and earn.</p>
+<p>শিখুন, টাস্ক করুন এবং EarnBD ঘুরে দেখুন।</p>
 </header>
+
 <main>
 <div class="balance">
-<div>Your Demo Balance</div>
+<div>আপনার Demo Balance</div>
 <div class="amount"><span id="balance">0</span> Points</div>
-<p class="note">Demo points only. No real money has been credited.</p>
+<p class="note">এগুলো ডেমো পয়েন্ট, আসল টাকা নয়।</p>
 </div>
 
 <nav>
-<button onclick="showPage('home')">Home</button>
-<button onclick="showPage('tasks')">Tasks</button>
-<button onclick="showPage('rewards')">Rewards</button>
-<button onclick="showPage('referral')">Referral</button>
-<button onclick="showPage('wallet')">Wallet</button>
+<button onclick="showPage('home')">🏠 Home</button>
+<button onclick="showPage('tasks')">📋 Tasks</button>
+<button onclick="showPage('rewards')">🎁 Rewards</button>
+<button onclick="showPage('referral')">👥 Referral</button>
+<button onclick="showPage('wallet')">💳 Wallet</button>
 </nav>
 
 <section id="home" class="page active">
-<h2>Explore EarnBD</h2>
+<h2>EarnBD-তে স্বাগতম!</h2>
 <div class="grid">
-<div class="item"><span>📋</span><h3>Daily Tasks</h3><p class="note">Complete demo tasks</p></div>
-<div class="item"><span>🎁</span><h3>Rewards</h3><p class="note">Coming soon</p></div>
-<div class="item"><span>👥</span><h3>Referral</h3><p class="note">Invite friends</p></div>
-<div class="item"><span>💳</span><h3>Wallet</h3><p class="note">Demo balance</p></div>
+<div class="tile"><span>📋</span><h3>Daily Tasks</h3><p class="note">ডেমো কাজ</p></div>
+<div class="tile"><span>🎁</span><h3>Rewards</h3><p class="note">শীঘ্রই</p></div>
+<div class="tile"><span>👥</span><h3>Referral</h3><p class="note">বন্ধু আমন্ত্রণ</p></div>
+<div class="tile"><span>💳</span><h3>Wallet</h3><p class="note">ডেমো ব্যালেন্স</p></div>
 </div>
-<button onclick="showPage('tasks')">Explore Tasks</button>
+<button style="width:100%" onclick="showPage('tasks')">টাস্ক দেখুন</button>
 </section>
 
 <section id="tasks" class="page">
-<h2>Daily Tasks</h2>
-<p class="note">These are test tasks created for preview. They do not pay real money.</p>
+<h2>📋 Daily Tasks</h2>
+<p class="note">এই টাস্কগুলো পরীক্ষামূলক। এগুলো থেকে আসল টাকা পাওয়া যায় না।</p>
 <div id="taskList"></div>
 </section>
 
 <section id="rewards" class="page">
-<h2>Rewards</h2>
-<p>Reward options are not available yet.</p>
-<p class="note">Demo points cannot be exchanged for money.</p>
+<h2>🎁 Rewards</h2>
+<div class="card">
+<p>Reward ব্যবস্থা এখনো চালু হয়নি।</p>
+<p class="note">ডেমো পয়েন্ট টাকা হিসেবে তোলা যাবে না।</p>
+</div>
 </section>
 
 <section id="referral" class="page">
-<h2>Referral</h2>
-<p>Referral features are coming soon.</p>
+<h2>👥 EarnBD Referral</h2>
+<div class="card">
+<h3>🎁 বন্ধুদের আমন্ত্রণ করুন</h3>
+<p>আপনার Referral ID:</p>
+<div class="link" id="refId">লোড হচ্ছে...</div>
+<div class="actions">
+<button onclick="copyReferralId()">📋 ID Copy</button>
+<button class="secondary" onclick="shareReferral()">📤 Share Link</button>
+</div>
+<p>আপনার Invite Link:</p>
+<div class="link" id="refLink">লোড হচ্ছে...</div>
+<button style="width:100%" onclick="copyReferralLink()">🔗 Link Copy করুন</button>
+<p id="refStatus" class="status"></p>
+<p class="note">এটি ডেমো Referral। আসল Referral Count, Reward ও Payment চালু করতে সার্ভার এবং ডেটাবেস প্রয়োজন।</p>
+</div>
+<div class="card">
+<h3>আপনি কি কারও লিংক দিয়ে এসেছেন?</h3>
+<div id="invitedBy" class="link">কোনো Referral ID পাওয়া যায়নি।</div>
+</div>
 </section>
 
 <section id="wallet" class="page">
-<h2>Wallet</h2>
-<p>Your demo balance: <b><span id="walletBalance">0</span> Points</b></p>
-<p class="note">Withdrawals are not enabled. No real funds are stored here.</p>
+<h2>💳 Wallet</h2>
+<div class="card">
+<p>Demo Balance: <b><span id="walletBalance">0</span> Points</b></p>
+<p class="note">টাকা তোলার ব্যবস্থা এখনো চালু হয়নি।</p>
+</div>
 </section>
 
-<p class="note">EarnBD preview version. Real rewards and withdrawals are not enabled.</p>
+<footer class="note">
+EarnBD Preview Version · Demo only · Real rewards and withdrawals are not enabled.
+</footer>
 </main>
 
 <script>
+"use strict";
+
 const tasks=[
-{id:"learn",title:"Learn about EarnBD",desc:"Read the app information.",points:10},
-{id:"safety",title:"Read safety tips",desc:"Learn how to protect your account.",points:15},
-{id:"welcome",title:"Complete welcome task",desc:"Explore the EarnBD home page.",points:5}
+{id:"learn",title:"EarnBD সম্পর্কে জানুন",desc:"অ্যাপের তথ্য পড়ুন।",points:10},
+{id:"safety",title:"নিরাপত্তার নিয়ম পড়ুন",desc:"অ্যাকাউন্ট নিরাপদ রাখুন।",points:15},
+{id:"welcome",title:"Welcome Task",desc:"Home পেজ ঘুরে দেখুন।",points:5}
 ];
 
-let state;
-try {
- state=JSON.parse(localStorage.getItem("earnbd_demo")||'{"points":0,"done":[]}');
- if(!Array.isArray(state.done)||!Number.isFinite(state.points)) throw Error();
-} catch(e) {
- state={points:0,done:[]};
+function newReferralId(){
+return "EB"+Math.random().toString(36).slice(2,8).toUpperCase();
 }
 
-function save(){
- localStorage.setItem("earnbd_demo",JSON.stringify(state));
- render();
+function loadState(){
+try{
+const saved=JSON.parse(localStorage.getItem("earnbd_full_v1")||"null");
+if(saved&&Number.isFinite(saved.points)&&Array.isArray(saved.done)&&saved.refId)return saved;
+}catch(e){}
+const fresh={points:0,done:[],refId:newReferralId()};
+localStorage.setItem("earnbd_full_v1",JSON.stringify(fresh));
+return fresh;
 }
+
+let state=loadState();
+
+function saveState(){
+localStorage.setItem("earnbd_full_v1",JSON.stringify(state));
+render();
+}
+
 function render(){
- document.getElementById("balance").textContent=state.points;
- document.getElementById("walletBalance").textContent=state.points;
- document.getElementById("taskList").innerHTML=tasks.map(t=>{
- const done=state.done.includes(t.id);
- return `<div class="task"><h3>${t.title}</h3>
- <p>${t.desc}</p><p><b>Reward: ${t.points} demo points</b></p>
- <button ${done?"disabled":""} onclick="claim('${t.id}')">${done?"Completed ✓":"Complete Task"}</button></div>`;
- }).join("");
+document.getElementById("balance").textContent=state.points;
+document.getElementById("walletBalance").textContent=state.points;
+
+document.getElementById("taskList").innerHTML=tasks.map(t=>{
+const done=state.done.includes(t.id);
+return `<div class="task">
+<h3>${t.title}</h3>
+<p>${t.desc}</p>
+<p><b>${t.points} Demo Points</b></p>
+<button ${done?"disabled":""} onclick="claimTask('${t.id}')">
+${done?"সম্পন্ন হয়েছে ✓":"টাস্ক সম্পন্ন করুন"}
+</button>
+</div>`;
+}).join("");
+
+document.getElementById("refId").textContent=state.refId;
+document.getElementById("refLink").textContent=getReferralLink();
 }
-function claim(id){
- const task=tasks.find(t=>t.id===id);
- if(!task||state.done.includes(id))return;
- state.done.push(id);
- state.points+=task.points;
- save();
- alert("Demo task completed! Points added.");
+
+function claimTask(id){
+const task=tasks.find(t=>t.id===id);
+if(!task||state.done.includes(id))return;
+state.done.push(id);
+state.points+=task.points;
+saveState();
+alert("ডেমো টাস্ক সম্পন্ন হয়েছে! পয়েন্ট যোগ হয়েছে।");
 }
+
 function showPage(id){
- document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
- document.getElementById(id).classList.add("active");
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+const page=document.getElementById(id);
+if(page)page.classList.add("active");
+window.scrollTo(0,0);
 }
+
+function getReferralLink(){
+const base=location.href.split("?")[0].split("#")[0];
+return base+"?ref="+encodeURIComponent(state.refId);
+}
+
+async function copyText(value){
+const status=document.getElementById("refStatus");
+try{
+if(navigator.clipboard&&window.isSecureContext){
+await navigator.clipboard.writeText(value);
+}else{
+const box=document.createElement("textarea");
+box.value=value;
+box.style.position="fixed";
+box.style.opacity="0";
+document.body.appendChild(box);
+box.select();
+const copied=document.execCommand("copy");
+box.remove();
+if(!copied)throw Error("Copy failed");
+}
+status.textContent="কপি হয়েছে! ✓";
+}catch(e){
+status.textContent="কপি না হলে লেখাটি চেপে ধরে Copy করুন: "+value;
+}
+}
+
+function copyReferralId(){
+copyText(state.refId);
+}
+
+function copyReferralLink(){
+copyText(getReferralLink());
+}
+
+async function shareReferral(){
+const link=getReferralLink();
+if(navigator.share){
+try{
+await navigator.share({
+title:"EarnBD",
+text:"EarnBD দেখুন:",
+url:link
+});
+}catch(e){}
+}else{
+copyText(link);
+}
+}
+
+const incomingRef=new URLSearchParams(location.search).get("ref");
+if(incomingRef){
+document.getElementById("invitedBy").textContent=
+"এই ডেমো Referral ID দিয়ে এসেছেন: "+incomingRef;
+}
+
 render();
 </script>
 </body>
