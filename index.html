@@ -5,232 +5,583 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#087f4f">
 <title>EarnBD - Earn Together</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f1f7f3;color:#173c2b}
-header{background:linear-gradient(135deg,#087f4f,#10a66b);color:white;padding:24px 18px;border-radius:0 0 22px 22px}
-main{padding:15px;max-width:620px;margin:auto}
-.card,.balance,.task{background:white;padding:16px;border-radius:14px;margin:12px 0;box-shadow:0 3px 12px #0000000a}
-.amount{font-size:28px;font-weight:bold;color:#087f4f}
-.note{font-size:13px;color:#66786d;line-height:1.6}
-button{border:0;border-radius:9px;padding:12px;background:#087f4f;color:white;font-size:14px;margin:4px 0;cursor:pointer}
-button:disabled{background:#9aaca1}
-input{width:100%;padding:12px;margin:7px 0;border:1px solid #cbd8cf;border-radius:9px;font-size:15px}
-nav{display:flex;flex-wrap:wrap;gap:5px;margin:15px 0}
-nav button{flex:1;min-width:65px}
+:root{
+  --green:#087f4f;
+  --green2:#10a66b;
+  --bg:#f2f7f4;
+  --light:#e8f7ee;
+  --text:#173c2b;
+  --muted:#718078;
+  --border:#e4ede7;
+}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+button,input{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.55;cursor:not-allowed}
+[hidden]{display:none!important}
+
+.app{max-width:620px;margin:auto;padding-bottom:25px}
+header{
+  background:linear-gradient(135deg,#075b39,#10a66b);
+  color:white;padding:23px 18px;
+  border-radius:0 0 24px 24px;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{
+  width:48px;height:48px;border-radius:15px;
+  display:grid;place-items:center;
+  background:#ffffff22;border:1px solid #ffffff44;
+  font-size:25px;
+}
+.brand h1{margin:0;font-size:25px}
+.brand p{margin:5px 0 0;font-size:12px;opacity:.9}
+.preview{
+  display:inline-block;margin-top:16px;
+  padding:6px 10px;border-radius:20px;
+  background:#ffffff20;font-size:11px;
+}
+main{padding:14px;max-width:620px;margin:auto}
+.card{
+  background:white;padding:17px;border-radius:17px;
+  margin:12px 0;border:1px solid var(--border);
+  box-shadow:0 4px 14px #173c2b08;
+}
+h2{font-size:21px;margin:5px 0 9px}
+h3{font-size:16px;margin:0}
+p{line-height:1.6}
+.note{font-size:12px;color:var(--muted);line-height:1.7}
+.muted{color:var(--muted);font-size:12px}
+button{
+  border:0;border-radius:11px;padding:12px 15px;
+  background:var(--green);color:white;font-size:13px;
+  font-weight:bold;
+}
+button.secondary{background:var(--light);color:var(--green)}
+button.outline{background:white;color:var(--green);border:1px solid #b9d9c5}
+input{
+  width:100%;padding:13px;margin:7px 0 12px;
+  border:1px solid #cbd8cf;border-radius:11px;
+  font-size:14px;outline-color:var(--green);
+}
+.status{font-size:12px;color:var(--green);line-height:1.7;overflow-wrap:anywhere}
+nav{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:4px;margin:17px 0;
+}
+nav button{
+  padding:10px 2px;background:white;color:#65766c;
+  border:1px solid var(--border);font-size:10px;
+}
+nav button.active{background:var(--green);color:white}
 .page{display:none}
 .page.active{display:block}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.tile{background:white;padding:13px 8px;border-radius:12px;text-align:center}
-.tile span{font-size:24px}
-.tile h3{font-size:15px}
-.link{overflow-wrap:anywhere;background:#edf6f0;padding:11px;border-radius:8px;font-size:13px}
+.tile{
+  background:white;padding:16px 10px;border-radius:15px;
+  border:1px solid var(--border);text-align:center;
+}
+.tile span{font-size:25px}
+.tile h3{font-size:14px;margin:9px 0 4px}
+.tile p{margin:0}
+.balance-card{
+  color:white;
+  background:linear-gradient(135deg,#075b39,#10a66b);
+  padding:22px;border-radius:22px;
+  box-shadow:0 9px 24px #087f4f20;
+}
+.balance-label{font-size:13px;opacity:.9}
+.amount{font-size:32px;font-weight:800;margin:10px 0 5px}
+.balance-sub{font-size:11px;opacity:.85}
+.balance-actions{display:flex;gap:9px;margin-top:20px}
+.balance-actions button{flex:1}
+.white-btn{background:white;color:var(--green)}
+.glass-btn{background:#ffffff20;color:white;border:1px solid #ffffff55}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:13px 0}
+.stat{
+  background:white;padding:15px;border:1px solid var(--border);
+  border-radius:15px;
+}
+.stat-icon{font-size:21px}
+.stat-label{font-size:11px;color:var(--muted);margin-top:10px}
+.stat-value{font-size:19px;font-weight:bold;margin-top:5px}
+.section-heading{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:8px;margin:22px 0 12px;
+}
+.section-heading h3{font-size:16px}
+.small-btn{background:transparent;color:var(--green);padding:5px;font-size:11px}
+.task,.history-item{
+  display:flex;align-items:center;gap:11px;
+  background:white;padding:14px;border:1px solid var(--border);
+  border-radius:15px;margin:10px 0;
+}
+.item-icon{
+  width:43px;height:43px;flex-shrink:0;
+  display:grid;place-items:center;border-radius:13px;
+  background:var(--light);font-size:21px;
+}
+.item-info{flex:1;min-width:0}
+.item-info h3{font-size:13px}
+.item-info p{margin:5px 0 0;font-size:11px;color:var(--muted);line-height:1.5}
+.points{color:var(--green);font-weight:bold;font-size:12px;white-space:nowrap}
+.task button{padding:9px 10px;font-size:10px}
+.link{
+  overflow-wrap:anywhere;background:#edf6f0;
+  padding:12px;border-radius:10px;font-size:12px;line-height:1.6;
+}
 .actions{display:flex;gap:8px;flex-wrap:wrap}
 .actions button{flex:1}
-.secondary{background:#dceee2;color:#145638}
-.status{font-size:13px;color:#087f4f;line-height:1.6;overflow-wrap:anywhere}
-[hidden]{display:none!important}
-footer{padding:18px 3px 25px}
+.notice{
+  background:#fff7e6;border:1px solid #f1e1b8;
+  color:#735b24;padding:13px;border-radius:12px;
+  font-size:12px;line-height:1.7;margin:13px 0;
+}
+.green-notice{
+  background:var(--light);color:#176443;
+  padding:13px;border-radius:12px;font-size:12px;line-height:1.7;
+}
+.empty{
+  padding:24px 12px;text-align:center;
+  font-size:12px;color:var(--muted);line-height:1.8;
+}
+.empty span{display:block;font-size:28px;margin-bottom:8px}
+footer{text-align:center;padding:22px 8px 30px}
+@media(max-width:360px){
+  nav button{font-size:9px}
+  .amount{font-size:27px}
+  .task{gap:7px;padding:10px}
+  .task button{padding:8px 7px}
+}
 </style>
 </head>
+
 <body>
+<div class="app">
+
 <header>
-<h1>🌿 EarnBD</h1>
-<p>শিখুন, টাস্ক করুন এবং EarnBD ঘুরে দেখুন।</p>
+  <div class="brand">
+    <div class="logo">🌿</div>
+    <div>
+      <h1>EarnBD</h1>
+      <p>Earn Together · Learn Together</p>
+    </div>
+  </div>
+  <div class="preview">● DEMO PREVIEW</div>
 </header>
+
 <main>
 
 <section class="card">
-<h2>🔐 EarnBD Account</h2>
-<div id="loginForm">
-<input id="email" type="email" placeholder="Email address" autocomplete="email">
-<input id="password" type="password" placeholder="Password (6+ characters)" autocomplete="current-password">
-<button id="signup" style="width:100%">Sign Up</button>
-<button id="login" style="width:100%">Log In</button>
-</div>
-<div id="account" hidden>
-<p>✅ লগইন হয়েছে!</p>
-<p id="userEmail"></p>
-<button id="logout" style="width:100%">Log Out</button>
-</div>
-<p id="message" class="status" role="status"></p>
+  <h2>🔐 EarnBD Account</h2>
+  <p class="note">আপনার অ্যাকাউন্টে প্রবেশ করুন অথবা নতুন অ্যাকাউন্ট তৈরি করুন।</p>
+
+  <div id="loginForm">
+    <input id="email" type="email" placeholder="Email address" autocomplete="email">
+    <input id="password" type="password" placeholder="Password (6+ characters)" autocomplete="current-password">
+    <button id="signup" style="width:100%">Create Account / Sign Up</button>
+    <button id="login" class="secondary" style="width:100%">Log In</button>
+  </div>
+
+  <div id="account" hidden>
+    <p>✅ লগইন হয়েছে!</p>
+    <p id="userEmail" class="note"></p>
+    <button id="logout" style="width:100%">Log Out</button>
+  </div>
+  <p id="message" class="status" role="status"></p>
 </section>
 
-<div class="balance">
-<div>আপনার Demo Balance</div>
-<div class="amount"><span id="balance">0</span> Points</div>
-<p class="note">এগুলো ডেমো পয়েন্ট, আসল টাকা নয়।</p>
-</div>
-
 <nav>
-<button onclick="showPage('home')">🏠 Home</button>
-<button onclick="showPage('tasks')">📋 Tasks</button>
-<button onclick="showPage('rewards')">🎁 Rewards</button>
-<button onclick="showPage('referral')">👥 Referral</button>
-<button onclick="showPage('wallet')">💳 Wallet</button>
+  <button class="active" data-page="home" onclick="showPage('home')">🏠 Home</button>
+  <button data-page="tasks" onclick="showPage('tasks')">📋 Tasks</button>
+  <button data-page="rewards" onclick="showPage('rewards')">🎁 Rewards</button>
+  <button data-page="referral" onclick="showPage('referral')">👥 Referral</button>
+  <button data-page="wallet" onclick="showPage('wallet')">💳 Wallet</button>
 </nav>
 
 <section id="home" class="page active">
-<h2>EarnBD-তে স্বাগতম!</h2>
-<div class="grid">
-<div class="tile"><span>📋</span><h3>Daily Tasks</h3><p class="note">ডেমো কাজ</p></div>
-<div class="tile"><span>🎁</span><h3>Rewards</h3><p class="note">শীঘ্রই</p></div>
-<div class="tile"><span>👥</span><h3>Referral</h3><p class="note">বন্ধু আমন্ত্রণ</p></div>
-<div class="tile"><span>💳</span><h3>Wallet</h3><p class="note">ডেমো ব্যালেন্স</p></div>
-</div>
-<button style="width:100%" onclick="showPage('tasks')">টাস্ক দেখুন</button>
+  <h2>আসসালামু আলাইকুম! 👋</h2>
+  <p class="note">স্বাগতম EarnBD-তে। ডেমো টাস্ক করে অ্যাপটি পরীক্ষা করুন।</p>
+
+  <div class="balance-card">
+    <div class="balance-label">আপনার Demo Balance</div>
+    <div class="amount"><span id="balance">0</span> Points</div>
+    <div class="balance-sub">ডেমো পয়েন্ট · আসল টাকা নয়</div>
+    <div class="balance-actions">
+      <button class="white-btn" onclick="showPage('wallet')">💳 Wallet দেখুন</button>
+      <button class="glass-btn" onclick="showPage('tasks')">📋 Tasks</button>
+    </div>
+  </div>
+
+  <div class="section-heading"><h3>আপনার EarnBD</h3></div>
+  <div class="grid">
+    <div class="tile"><span>📋</span><h3>Daily Tasks</h3><p class="note">ডেমো কাজ</p></div>
+    <div class="tile"><span>🎁</span><h3>Rewards</h3><p class="note">এখনো চালু নয়</p></div>
+    <div class="tile"><span>👥</span><h3>Referral</h3><p class="note">বন্ধুকে জানান</p></div>
+    <div class="tile"><span>💳</span><h3>Wallet</h3><p class="note">পয়েন্টের হিসাব</p></div>
+  </div>
+
+  <div class="section-heading"><h3>শুরু করুন</h3></div>
+  <div class="card">
+    <p class="note">প্রথমে Tasks পেজে গিয়ে ডেমো টাস্ক সম্পন্ন করুন। আপনার পয়েন্ট ও লেনদেনের ইতিহাস Wallet-এ দেখা যাবে।</p>
+    <button style="width:100%" onclick="showPage('tasks')">টাস্ক দেখুন →</button>
+  </div>
 </section>
 
 <section id="tasks" class="page">
-<h2>📋 Daily Tasks</h2>
-<p class="note">এই টাস্কগুলো পরীক্ষামূলক। এগুলো থেকে আসল টাকা পাওয়া যায় না।</p>
-<div id="taskList"></div>
+  <h2>📋 Daily Tasks</h2>
+  <p class="note">এগুলো পরীক্ষামূলক টাস্ক। পয়েন্ট শুধু এই ব্রাউজারে ডেমো হিসেবে যোগ হবে।</p>
+  <div id="taskList"></div>
 </section>
 
 <section id="rewards" class="page">
-<h2>🎁 Rewards</h2>
-<div class="card">
-<p>Reward ব্যবস্থা এখনো চালু হয়নি।</p>
-<p class="note">ডেমো পয়েন্ট টাকা হিসেবে তোলা যাবে না।</p>
-</div>
+  <h2>🎁 Rewards</h2>
+  <div class="card">
+    <div class="item-icon">🎁</div>
+    <h3>Rewards Coming Soon</h3>
+    <p class="note">রিওয়ার্ড ব্যবস্থা এখনো চালু হয়নি। ডেমো পয়েন্টের কোনো নগদ মূল্য নেই এবং এগুলো টাকা হিসেবে তোলা যাবে না।</p>
+  </div>
+  <div class="green-notice">EarnBD এখনো পরীক্ষামূলক সংস্করণ। ভবিষ্যতে কোনো রিওয়ার্ড চালু হলে তার নিয়ম এখানে জানানো হবে।</div>
 </section>
 
 <section id="referral" class="page">
-<h2>👥 EarnBD Referral</h2>
-<div class="card">
-<p>আপনার Referral ID:</p>
-<div id="refId" class="link"></div>
-<div class="actions">
-<button onclick="copyText(state.refId)">📋 ID Copy</button>
-<button class="secondary" onclick="shareReferral()">📤 Share Link</button>
-</div>
-<p>আপনার Invite Link:</p>
-<div id="refLink" class="link"></div>
-<button style="width:100%" onclick="copyText(getReferralLink())">🔗 Link Copy করুন</button>
-<p id="refStatus" class="status"></p>
-<p class="note">এটি ডেমো Referral। আসল Referral Count ও Reward চালু নয়।</p>
-</div>
-<div class="card">
-<h3>আপনি কি কারও লিংক দিয়ে এসেছেন?</h3>
-<div id="invitedBy" class="link">কোনো Referral ID পাওয়া যায়নি।</div>
-</div>
+  <h2>👥 Referral</h2>
+  <p class="note">আপনার পরিচিতদের EarnBD ডেমো দেখাতে লিংক শেয়ার করতে পারেন।</p>
+
+  <div class="card">
+    <h3>আপনার Referral ID</h3>
+    <div id="refId" class="link" style="margin-top:12px"></div>
+    <div class="actions" style="margin-top:10px">
+      <button onclick="copyText(state.refId)">📋 ID Copy</button>
+      <button class="secondary" onclick="shareReferral()">📤 Share Link</button>
+    </div>
+    <div class="section-heading"><h3>Invite Link</h3></div>
+    <div id="refLink" class="link"></div>
+    <button style="width:100%;margin-top:10px" onclick="copyText(getReferralLink())">🔗 Link Copy করুন</button>
+    <p id="refStatus" class="status"></p>
+    <p class="note">এটি ডেমো Referral। প্রকৃত Referral Count ও Reward চালু নয়।</p>
+  </div>
+
+  <div class="card">
+    <h3>আপনি কি কারও লিংক দিয়ে এসেছেন?</h3>
+    <p id="invitedBy" class="link" style="margin-top:12px">কোনো Referral ID পাওয়া যায়নি।</p>
+  </div>
 </section>
 
 <section id="wallet" class="page">
-<h2>💳 Wallet</h2>
-<div class="card">
-<p>Demo Balance: <b><span id="walletBalance">0</span> Points</b></p>
-<p class="note">টাকা তোলার ব্যবস্থা এখনো চালু হয়নি।</p>
-</div>
+  <h2>💳 My Wallet</h2>
+  <p class="note">আপনার ডেমো ব্যালেন্স ও পয়েন্ট যোগ হওয়ার ইতিহাস দেখুন।</p>
+
+  <div class="balance-card">
+    <div class="balance-label">Available Demo Balance</div>
+    <div class="amount"><span id="walletBalance">0</span> Points</div>
+    <div class="balance-sub">এটি বাস্তব অর্থ বা ক্রিপ্টো ব্যালেন্স নয়</div>
+    <div class="balance-actions">
+      <button class="white-btn" onclick="walletMessage('deposit')">＋ Deposit</button>
+      <button class="glass-btn" onclick="walletMessage('withdraw')">↗ Withdraw</button>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-icon">📈</div>
+      <div class="stat-label">মোট ডেমো পয়েন্ট অর্জন</div>
+      <div class="stat-value" id="totalEarned">0</div>
+    </div>
+    <div class="stat">
+      <div class="stat-icon">🧾</div>
+      <div class="stat-label">মোট লেনদেন</div>
+      <div class="stat-value" id="transactionCount">0</div>
+    </div>
+  </div>
+
+  <div id="walletMessage" class="green-notice" hidden></div>
+
+  <div class="notice">
+    ⚠️ <b>ডেমো ওয়ালেট:</b> Deposit ও Withdraw এখনো চালু হয়নি। কোনো টাকা জমা বা উত্তোলন হবে না। ডেমো পয়েন্ট আসল টাকা নয়।
+  </div>
+
+  <div class="section-heading">
+    <h3>📜 Transaction History</h3>
+    <button class="small-btn" onclick="renderHistory()">Refresh ↻</button>
+  </div>
+
+  <div id="transactionList"></div>
+
+  <p class="note">লেনদেনের ইতিহাস এই ব্রাউজারের Local Storage-এ সংরক্ষিত হয়। ব্রাউজারের ডেটা মুছে গেলে ডেমো হিসাব হারিয়ে যেতে পারে।</p>
 </section>
 
 <footer class="note">
-EarnBD Preview Version · Demo only · Real rewards and withdrawals are not enabled.
+  EarnBD Preview Version<br>
+  Demo only · Real rewards and withdrawals are not enabled.
 </footer>
+
 </main>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 "use strict";
 
-const tasks=[
-{id:"learn",title:"EarnBD সম্পর্কে জানুন",desc:"অ্যাপের তথ্য পড়ুন।",points:10},
-{id:"safety",title:"নিরাপত্তার নিয়ম পড়ুন",desc:"অ্যাকাউন্ট নিরাপদ রাখুন।",points:15},
-{id:"welcome",title:"Welcome Task",desc:"Home পেজ ঘুরে দেখুন।",points:5}
+const tasks = [
+  {
+    id:"learn",
+    title:"EarnBD সম্পর্কে জানুন",
+    desc:"অ্যাপের তথ্য পড়ুন।",
+    points:10
+  },
+  {
+    id:"safety",
+    title:"নিরাপত্তার নিয়ম পড়ুন",
+    desc:"অ্যাকাউন্ট নিরাপদ রাখার নিয়ম জানুন।",
+    points:15
+  },
+  {
+    id:"welcome",
+    title:"Welcome Task",
+    desc:"Home পেজ ঘুরে দেখুন।",
+    points:5
+  }
 ];
 
 function newReferralId(){
-return "EB"+Math.random().toString(36).slice(2,8).toUpperCase();
+  return "EB"+Math.random().toString(36).slice(2,8).toUpperCase();
 }
 
 function loadState(){
-try{
-const saved=JSON.parse(localStorage.getItem("earnbd_full_v1")||"null");
-if(saved&&Number.isFinite(saved.points)&&Array.isArray(saved.done)&&saved.refId)return saved;
-}catch(e){}
-const fresh={points:0,done:[],refId:newReferralId()};
-localStorage.setItem("earnbd_full_v1",JSON.stringify(fresh));
-return fresh;
+  try{
+    const saved=JSON.parse(localStorage.getItem("earnbd_full_v1")||"null");
+
+    if(saved && Number.isFinite(saved.points) &&
+       Array.isArray(saved.done) && saved.refId){
+
+      // পুরোনো ডেটা বজায় রেখে নতুন ইতিহাস যোগ করা
+      if(!Array.isArray(saved.transactions)){
+        saved.transactions=[];
+      }
+
+      return saved;
+    }
+  }catch(e){}
+
+  const fresh={
+    points:0,
+    done:[],
+    refId:newReferralId(),
+    transactions:[]
+  };
+
+  localStorage.setItem("earnbd_full_v1",JSON.stringify(fresh));
+  return fresh;
 }
 
 let state=loadState();
 
 function saveState(){
-localStorage.setItem("earnbd_full_v1",JSON.stringify(state));
-render();
+  localStorage.setItem("earnbd_full_v1",JSON.stringify(state));
+  render();
+}
+
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g,function(ch){
+    return {
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[ch];
+  });
 }
 
 function render(){
-document.getElementById("balance").textContent=state.points;
-document.getElementById("walletBalance").textContent=state.points;
-document.getElementById("taskList").innerHTML=tasks.map(t=>{
-const done=state.done.includes(t.id);
-return `<div class="task">
-<h3>${t.title}</h3>
-<p>${t.desc}</p>
-<p><b>${t.points} Demo Points</b></p>
-<button ${done?"disabled":""} onclick="claimTask('${t.id}')">${done?"সম্পন্ন হয়েছে ✓":"টাস্ক সম্পন্ন করুন"}</button>
-</div>`;
-}).join("");
-document.getElementById("refId").textContent=state.refId;
-document.getElementById("refLink").textContent=getReferralLink();
+  document.getElementById("balance").textContent=state.points;
+  document.getElementById("walletBalance").textContent=state.points;
+
+  const taskList=document.getElementById("taskList");
+
+  taskList.innerHTML=tasks.map(function(t){
+    const done=state.done.includes(t.id);
+
+    return `
+      <div class="task">
+        <div class="item-icon">${done?"✅":"📋"}</div>
+        <div class="item-info">
+          <h3>${escapeHTML(t.title)}</h3>
+          <p>${escapeHTML(t.desc)}</p>
+          <p class="points">+${t.points} Demo Points</p>
+        </div>
+        <button ${done?"disabled":""}
+          onclick="claimTask('${t.id}')">
+          ${done?"সম্পন্ন ✓":"সম্পন্ন করুন"}
+        </button>
+      </div>
+    `;
+  }).join("");
+
+  document.getElementById("refId").textContent=state.refId;
+  document.getElementById("refLink").textContent=getReferralLink();
+
+  renderHistory();
 }
 
 function claimTask(id){
-const task=tasks.find(t=>t.id===id);
-if(!task||state.done.includes(id))return;
-state.done.push(id);
-state.points+=task.points;
-saveState();
-alert("ডেমো টাস্ক সম্পন্ন হয়েছে! পয়েন্ট যোগ হয়েছে।");
+  const task=tasks.find(function(t){return t.id===id;});
+
+  if(!task || state.done.includes(id))return;
+
+  state.done.push(id);
+  state.points+=task.points;
+
+  if(!Array.isArray(state.transactions)){
+    state.transactions=[];
+  }
+
+  state.transactions.push({
+    id:"TX"+Date.now()+Math.random().toString(36).slice(2,5),
+    title:task.title,
+    amount:task.points,
+    type:"credit",
+    date:new Date().toLocaleString("bn-BD")
+  });
+
+  // ইতিহাসের সর্বশেষ ১০০টি এন্ট্রি রাখা
+  state.transactions=state.transactions.slice(-100);
+
+  saveState();
+
+  alert("ডেমো টাস্ক সম্পন্ন হয়েছে! "+task.points+" পয়েন্ট যোগ হয়েছে।");
+}
+
+function renderHistory(){
+  const transactions=Array.isArray(state.transactions)
+    ? state.transactions : [];
+
+  const earned=transactions.reduce(function(total,tx){
+    return total+(tx.type==="credit" ? Number(tx.amount)||0 : 0);
+  },0);
+
+  document.getElementById("totalEarned").textContent=earned;
+  document.getElementById("transactionCount").textContent=transactions.length;
+
+  const list=document.getElementById("transactionList");
+
+  if(!transactions.length){
+    list.innerHTML=`
+      <div class="card empty">
+        <span>🧾</span>
+        এখনো কোনো লেনদেন নেই।<br>
+        একটি ডেমো টাস্ক সম্পন্ন করলে এখানে দেখা যাবে।
+      </div>
+    `;
+    return;
+  }
+
+  list.innerHTML=transactions.slice().reverse().map(function(tx){
+    const credit=tx.type==="credit";
+    const sign=credit?"+":"−";
+    const amount=Number(tx.amount)||0;
+
+    return `
+      <div class="history-item">
+        <div class="item-icon">${credit?"📥":"📤"}</div>
+        <div class="item-info">
+          <h3>${escapeHTML(tx.title||"Demo Transaction")}</h3>
+          <p>${escapeHTML(tx.date||"তারিখ নেই")}</p>
+        </div>
+        <div class="points">${sign}${amount} pts</div>
+      </div>
+    `;
+  }).join("");
+}
+
+function walletMessage(type){
+  const box=document.getElementById("walletMessage");
+  box.hidden=false;
+
+  if(type==="deposit"){
+    box.textContent="Deposit এখনো চালু হয়নি। এটি শুধু ডেমো অপশন; কোনো টাকা জমা হবে না।";
+  }else{
+    box.textContent="Withdraw এখনো চালু হয়নি। ডেমো পয়েন্ট আসল টাকা নয়, তাই তোলা যাবে না।";
+  }
 }
 
 function showPage(id){
-document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-const page=document.getElementById(id);
-if(page)page.classList.add("active");
-window.scrollTo(0,0);
+  document.querySelectorAll(".page").forEach(function(page){
+    page.classList.remove("active");
+  });
+
+  const page=document.getElementById(id);
+  if(page)page.classList.add("active");
+
+  document.querySelectorAll("nav button").forEach(function(btn){
+    btn.classList.toggle("active",btn.dataset.page===id);
+  });
+
+  if(id==="wallet")renderHistory();
+
+  window.scrollTo(0,0);
 }
 
 function getReferralLink(){
-return location.href.split("?")[0].split("#")[0]+"?ref="+encodeURIComponent(state.refId);
+  return location.href.split("?")[0].split("#")[0]
+    +"?ref="+encodeURIComponent(state.refId);
 }
 
 async function copyText(value){
-const status=document.getElementById("refStatus");
-try{
-if(navigator.clipboard&&window.isSecureContext){
-await navigator.clipboard.writeText(value);
-}else{
-const box=document.createElement("textarea");
-box.value=value;
-box.style.position="fixed";
-box.style.opacity="0";
-document.body.appendChild(box);
-box.select();
-const ok=document.execCommand("copy");
-box.remove();
-if(!ok)throw Error("Copy failed");
-}
-status.textContent="কপি হয়েছে! ✓";
-}catch(e){
-status.textContent="কপি না হলে লেখাটি চেপে ধরে Copy করুন: "+value;
-}
+  const status=document.getElementById("refStatus");
+
+  try{
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(value);
+    }else{
+      const box=document.createElement("textarea");
+      box.value=value;
+      box.style.position="fixed";
+      box.style.opacity="0";
+      document.body.appendChild(box);
+      box.select();
+
+      const ok=document.execCommand("copy");
+      box.remove();
+
+      if(!ok)throw Error("Copy failed");
+    }
+
+    status.textContent="কপি হয়েছে! ✓";
+  }catch(e){
+    status.textContent="কপি না হলে লেখাটি চেপে ধরে Copy করুন: "+value;
+  }
 }
 
 async function shareReferral(){
-const link=getReferralLink();
-if(navigator.share){
-try{await navigator.share({title:"EarnBD",text:"EarnBD দেখুন:",url:link});}
-catch(e){}
-}else{
-copyText(link);
-}
+  const link=getReferralLink();
+
+  if(navigator.share){
+    try{
+      await navigator.share({
+        title:"EarnBD",
+        text:"EarnBD ডেমো দেখুন:",
+        url:link
+      });
+    }catch(e){}
+  }else{
+    await copyText(link);
+  }
 }
 
 const incomingRef=new URLSearchParams(location.search).get("ref");
+
 if(incomingRef){
-document.getElementById("invitedBy").textContent="এই ডেমো Referral ID দিয়ে এসেছেন: "+incomingRef;
+  document.getElementById("invitedBy").textContent=
+    "এই ডেমো Referral ID দিয়ে এসেছেন: "+incomingRef;
 }
 
 render();
@@ -238,76 +589,126 @@ render();
 /* Supabase Account */
 const SUPABASE_URL="https://nlhzpnjhmcslwfivncbx.supabase.co";
 const SUPABASE_KEY="sb_publishable_BfTXD5SedTNHLEWEFPXy1Q_EUO0x0_v";
+
 const msg=document.getElementById("message");
 
 if(!window.supabase){
-msg.textContent="লগইন সেবা লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।";
+  msg.textContent="লগইন সেবা লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।";
 }else{
-const client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{
-auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
-});
+  const client=window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY,
+    {
+      auth:{
+        persistSession:true,
+        autoRefreshToken:true,
+        detectSessionInUrl:true
+      }
+    }
+  );
 
-function showAuth(session){
-const loggedIn=!!session;
-document.getElementById("loginForm").hidden=loggedIn;
-document.getElementById("account").hidden=!loggedIn;
-document.getElementById("userEmail").textContent=loggedIn?"Welcome to EarnBD 🎉":"";
-}
+  function showAuth(session){
+    const loggedIn=!!session;
 
-client.auth.getSession().then(({data,error})=>{
-if(error)msg.textContent=error.message;
-showAuth(data?.session||null);
-});
+    document.getElementById("loginForm").hidden=loggedIn;
+    document.getElementById("account").hidden=!loggedIn;
 
-client.auth.onAuthStateChange((event,session)=>{
-showAuth(session);
-if(event==="SIGNED_IN")msg.textContent="লগইন সফল হয়েছে!";
-if(event==="SIGNED_OUT")msg.textContent="আপনি লগআউট করেছেন।";
-});
+    document.getElementById("userEmail").textContent=
+      loggedIn ? (session.user.email||"EarnBD User") : "";
+  }
 
-document.getElementById("signup").addEventListener("click",async()=>{
-const email=document.getElementById("email").value.trim();
-const password=document.getElementById("password").value;
-if(!email||password.length<6){
-msg.textContent="সঠিক ইমেইল দিন এবং কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন।";
-return;
-}
-msg.textContent="অ্যাকাউন্ট তৈরি হচ্ছে...";
-const {data,error}=await client.auth.signUp({
-email,password,
-options:{emailRedirectTo:"https://kamrul1923.github.io/earnbd-mini-app/"}
-});
-if(error)msg.textContent=error.message;
-else if(data.session){
-msg.textContent="অ্যাকাউন্ট তৈরি হয়েছে এবং লগইন হয়েছে!";
-showAuth(data.session);
-}else{
-msg.textContent="ইমেইল চেক করুন এবং confirmation link-এ চাপ দিন।";
-}
-});
+  client.auth.getSession().then(function({data,error}){
+    if(error)msg.textContent=error.message;
+    showAuth(data?.session||null);
+  });
 
-document.getElementById("login").addEventListener("click",async()=>{
-const email=document.getElementById("email").value.trim();
-const password=document.getElementById("password").value;
-if(!email||!password){
-msg.textContent="ইমেইল ও পাসওয়ার্ড দিন।";
-return;
-}
-msg.textContent="লগইন হচ্ছে...";
-const {data,error}=await client.auth.signInWithPassword({email,password});
-if(error)msg.textContent=error.message;
-else{
-msg.textContent="লগইন সফল হয়েছে!";
-showAuth(data.session);
-}
-});
+  client.auth.onAuthStateChange(function(event,session){
+    showAuth(session);
 
-document.getElementById("logout").addEventListener("click",async()=>{
-const {error}=await client.auth.signOut();
-msg.textContent=error?error.message:"লগআউট সম্পন্ন হয়েছে।";
-if(!error)showAuth(null);
-});
+    if(event==="SIGNED_IN"){
+      msg.textContent="লগইন সফল হয়েছে!";
+    }
+
+    if(event==="SIGNED_OUT"){
+      msg.textContent="আপনি লগআউট করেছেন।";
+    }
+  });
+
+  document.getElementById("signup").addEventListener("click",async function(){
+    const email=document.getElementById("email").value.trim();
+    const password=document.getElementById("password").value;
+
+    if(!email || password.length<6){
+      msg.textContent="সঠিক ইমেইল দিন এবং কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন।";
+      return;
+    }
+
+    msg.textContent="অ্যাকাউন্ট তৈরি হচ্ছে...";
+
+    try{
+      const {data,error}=await client.auth.signUp({
+        email:email,
+        password:password,
+        options:{
+          emailRedirectTo:"https://kamrul1923.github.io/earnbd-mini-app/"
+        }
+      });
+
+      if(error){
+        msg.textContent=error.message;
+      }else if(data.session){
+        msg.textContent="অ্যাকাউন্ট তৈরি হয়েছে এবং লগইন হয়েছে!";
+        showAuth(data.session);
+      }else{
+        msg.textContent="ইমেইল চেক করুন এবং confirmation link-এ চাপ দিন।";
+      }
+    }catch(e){
+      msg.textContent="সমস্যা হয়েছে। ইন্টারনেট সংযোগ পরীক্ষা করে আবার চেষ্টা করুন।";
+    }
+  });
+
+  document.getElementById("login").addEventListener("click",async function(){
+    const email=document.getElementById("email").value.trim();
+    const password=document.getElementById("password").value;
+
+    if(!email || !password){
+      msg.textContent="ইমেইল ও পাসওয়ার্ড দিন।";
+      return;
+    }
+
+    msg.textContent="লগইন হচ্ছে...";
+
+    try{
+      const {data,error}=await client.auth.signInWithPassword({
+        email:email,
+        password:password
+      });
+
+      if(error){
+        msg.textContent=error.message;
+      }else{
+        msg.textContent="লগইন সফল হয়েছে!";
+        showAuth(data.session);
+      }
+    }catch(e){
+      msg.textContent="লগইন করা যায়নি। আবার চেষ্টা করুন।";
+    }
+  });
+
+  document.getElementById("logout").addEventListener("click",async function(){
+    msg.textContent="লগআউট হচ্ছে...";
+
+    try{
+      const {error}=await client.auth.signOut();
+
+      msg.textContent=error ? error.message : "লগআউট সম্পন্ন হয়েছে।";
+
+      if(!error)showAuth(null);
+    }catch(e){
+      msg.textContent="লগআউট করা যায়নি। আবার চেষ্টা করুন।";
+    }
+  });
 }
 </script>
 </body>
-</html>
+  </html>
