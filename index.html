@@ -238,5 +238,61 @@ document.getElementById("invitedBy").textContent=
 
 render();
 </script>
-</body>
+<div id="earnbd-auth" style="max-width:400px;margin:20px auto;padding:20px;border:1px solid #ddd;border-radius:12px">
+  <h2>EarnBD Account</h2>
+  <input id="eb-email" type="email" placeholder="Email address" style="width:100%;padding:12px;margin:8px 0">
+  <input id="eb-password" type="password" placeholder="Password (6+ characters)" style="width:100%;padding:12px;margin:8px 0">
+  <button id="eb-signup" style="width:100%;padding:12px">Sign Up</button>
+  <button id="eb-login" style="width:100%;padding:12px">Log In</button>
+  <p id="eb-message"></p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://nlhzpnjhmcslwfivncbx.supabase.co";
+sb_publishable_BfTXD5SedTNHLEWEFPXy1Q_EUO0x0_v "PASTE_YOUR_PUBLISHABLE_KEY_HERE";
+
+const ebClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+const ebMessage = document.getElementById("eb-message");
+
+document.getElementById("eb-signup").onclick = async () => {
+  const email = document.getElementById("eb-email").value.trim();
+  const password = document.getElementById("eb-password").value;
+
+  if (!email || password.length < 6) {
+    ebMessage.textContent = "Email দিন এবং কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন।";
+    return;
+  }
+
+  const { error } = await ebClient.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: "https://kamrul1923.github.io/earnbd-mini-app/"
+    }
+  });
+
+  ebMessage.textContent = error
+    ? error.message
+    : "ইমেইল চেক করে অ্যাকাউন্ট নিশ্চিত করুন।";
+};
+
+document.getElementById("eb-login").onclick = async () => {
+  const email = document.getElementById("eb-email").value.trim();
+  const password = document.getElementById("eb-password").value;
+
+  const { error } = await ebClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  ebMessage.textContent = error
+    ? error.message
+    : "Login successful!";
+};
+</script> </body>
 </html>
