@@ -8,29 +8,29 @@
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#f1f7f3;color:#173c2b}
-header{background:linear-gradient(135deg,#087f4f,#10a66b);color:white;padding:25px 18px;border-radius:0 0 22px 22px}
-header h1{margin:0 0 8px}
-main{padding:16px;max-width:620px;margin:auto}
-.card,.balance,.task{background:white;padding:17px;border-radius:15px;margin:12px 0;box-shadow:0 3px 12px #0000000a}
-.amount{font-size:28px;font-weight:bold;color:#087f4f;margin:8px 0}
+header{background:linear-gradient(135deg,#087f4f,#10a66b);color:white;padding:24px 18px;border-radius:0 0 22px 22px}
+main{padding:15px;max-width:620px;margin:auto}
+.card,.balance,.task{background:white;padding:16px;border-radius:14px;margin:12px 0;box-shadow:0 3px 12px #0000000a}
+.amount{font-size:28px;font-weight:bold;color:#087f4f}
 .note{font-size:13px;color:#66786d;line-height:1.6}
-nav{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0}
-button{border:0;border-radius:10px;padding:12px;background:#087f4f;color:white;font-size:14px;cursor:pointer;margin:4px 0}
-nav button{flex:1;min-width:68px}
+button{border:0;border-radius:9px;padding:12px;background:#087f4f;color:white;font-size:14px;margin:4px 0;cursor:pointer}
+button:disabled{background:#9aaca1}
+input{width:100%;padding:12px;margin:7px 0;border:1px solid #cbd8cf;border-radius:9px;font-size:15px}
+nav{display:flex;flex-wrap:wrap;gap:5px;margin:15px 0}
+nav button{flex:1;min-width:65px}
 .page{display:none}
 .page.active{display:block}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.tile{background:white;padding:15px 8px;border-radius:14px;text-align:center}
-.tile span{font-size:25px}
+.tile{background:white;padding:13px 8px;border-radius:12px;text-align:center}
+.tile span{font-size:24px}
 .tile h3{font-size:15px}
-.task h3{margin-top:0}
-button:disabled{background:#9aaca1}
-.link{overflow-wrap:anywhere;background:#edf6f0;padding:12px;border-radius:9px;font-size:13px;line-height:1.6}
-.actions{display:flex;flex-wrap:wrap;gap:8px}
+.link{overflow-wrap:anywhere;background:#edf6f0;padding:11px;border-radius:8px;font-size:13px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
 .actions button{flex:1}
 .secondary{background:#dceee2;color:#145638}
-.status{font-size:13px;color:#087f4f;line-height:1.6}
-footer{padding:16px 4px 25px}
+.status{font-size:13px;color:#087f4f;line-height:1.6;overflow-wrap:anywhere}
+[hidden]{display:none!important}
+footer{padding:18px 3px 25px}
 </style>
 </head>
 <body>
@@ -38,8 +38,24 @@ footer{padding:16px 4px 25px}
 <h1>🌿 EarnBD</h1>
 <p>শিখুন, টাস্ক করুন এবং EarnBD ঘুরে দেখুন।</p>
 </header>
-
 <main>
+
+<section class="card">
+<h2>🔐 EarnBD Account</h2>
+<div id="loginForm">
+<input id="email" type="email" placeholder="Email address" autocomplete="email">
+<input id="password" type="password" placeholder="Password (6+ characters)" autocomplete="current-password">
+<button id="signup" style="width:100%">Sign Up</button>
+<button id="login" style="width:100%">Log In</button>
+</div>
+<div id="account" hidden>
+<p>✅ লগইন হয়েছে!</p>
+<p id="userEmail"></p>
+<button id="logout" style="width:100%">Log Out</button>
+</div>
+<p id="message" class="status" role="status"></p>
+</section>
+
 <div class="balance">
 <div>আপনার Demo Balance</div>
 <div class="amount"><span id="balance">0</span> Points</div>
@@ -82,18 +98,17 @@ footer{padding:16px 4px 25px}
 <section id="referral" class="page">
 <h2>👥 EarnBD Referral</h2>
 <div class="card">
-<h3>🎁 বন্ধুদের আমন্ত্রণ করুন</h3>
 <p>আপনার Referral ID:</p>
-<div class="link" id="refId">লোড হচ্ছে...</div>
+<div id="refId" class="link"></div>
 <div class="actions">
-<button onclick="copyReferralId()">📋 ID Copy</button>
+<button onclick="copyText(state.refId)">📋 ID Copy</button>
 <button class="secondary" onclick="shareReferral()">📤 Share Link</button>
 </div>
 <p>আপনার Invite Link:</p>
-<div class="link" id="refLink">লোড হচ্ছে...</div>
-<button style="width:100%" onclick="copyReferralLink()">🔗 Link Copy করুন</button>
+<div id="refLink" class="link"></div>
+<button style="width:100%" onclick="copyText(getReferralLink())">🔗 Link Copy করুন</button>
 <p id="refStatus" class="status"></p>
-<p class="note">এটি ডেমো Referral। আসল Referral Count, Reward ও Payment চালু করতে সার্ভার এবং ডেটাবেস প্রয়োজন।</p>
+<p class="note">এটি ডেমো Referral। আসল Referral Count ও Reward চালু নয়।</p>
 </div>
 <div class="card">
 <h3>আপনি কি কারও লিংক দিয়ে এসেছেন?</h3>
@@ -114,6 +129,7 @@ EarnBD Preview Version · Demo only · Real rewards and withdrawals are not enab
 </footer>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 "use strict";
 
@@ -147,19 +163,15 @@ render();
 function render(){
 document.getElementById("balance").textContent=state.points;
 document.getElementById("walletBalance").textContent=state.points;
-
 document.getElementById("taskList").innerHTML=tasks.map(t=>{
 const done=state.done.includes(t.id);
 return `<div class="task">
 <h3>${t.title}</h3>
 <p>${t.desc}</p>
 <p><b>${t.points} Demo Points</b></p>
-<button ${done?"disabled":""} onclick="claimTask('${t.id}')">
-${done?"সম্পন্ন হয়েছে ✓":"টাস্ক সম্পন্ন করুন"}
-</button>
+<button ${done?"disabled":""} onclick="claimTask('${t.id}')">${done?"সম্পন্ন হয়েছে ✓":"টাস্ক সম্পন্ন করুন"}</button>
 </div>`;
 }).join("");
-
 document.getElementById("refId").textContent=state.refId;
 document.getElementById("refLink").textContent=getReferralLink();
 }
@@ -181,8 +193,7 @@ window.scrollTo(0,0);
 }
 
 function getReferralLink(){
-const base=location.href.split("?")[0].split("#")[0];
-return base+"?ref="+encodeURIComponent(state.refId);
+return location.href.split("?")[0].split("#")[0]+"?ref="+encodeURIComponent(state.refId);
 }
 
 async function copyText(value){
@@ -197,9 +208,9 @@ box.style.position="fixed";
 box.style.opacity="0";
 document.body.appendChild(box);
 box.select();
-const copied=document.execCommand("copy");
+const ok=document.execCommand("copy");
 box.remove();
-if(!copied)throw Error("Copy failed");
+if(!ok)throw Error("Copy failed");
 }
 status.textContent="কপি হয়েছে! ✓";
 }catch(e){
@@ -207,24 +218,11 @@ status.textContent="কপি না হলে লেখাটি চেপে �
 }
 }
 
-function copyReferralId(){
-copyText(state.refId);
-}
-
-function copyReferralLink(){
-copyText(getReferralLink());
-}
-
 async function shareReferral(){
 const link=getReferralLink();
 if(navigator.share){
-try{
-await navigator.share({
-title:"EarnBD",
-text:"EarnBD দেখুন:",
-url:link
-});
-}catch(e){}
+try{await navigator.share({title:"EarnBD",text:"EarnBD দেখুন:",url:link});}
+catch(e){}
 }else{
 copyText(link);
 }
@@ -232,67 +230,84 @@ copyText(link);
 
 const incomingRef=new URLSearchParams(location.search).get("ref");
 if(incomingRef){
-document.getElementById("invitedBy").textContent=
-"এই ডেমো Referral ID দিয়ে এসেছেন: "+incomingRef;
+document.getElementById("invitedBy").textContent="এই ডেমো Referral ID দিয়ে এসেছেন: "+incomingRef;
 }
 
 render();
+
+/* Supabase Account */
+const SUPABASE_URL="https://nlhzpnjhmcslwfivncbx.supabase.co";
+const SUPABASE_KEY="sb_publishable_BfTXD5SedTNHLEWEFPXy1Q_EUO0x0_v";
+const msg=document.getElementById("message");
+
+if(!window.supabase){
+msg.textContent="লগইন সেবা লোড হয়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন।";
+}else{
+const client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{
+auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
+});
+
+function showAuth(session){
+const loggedIn=!!session;
+document.getElementById("loginForm").hidden=loggedIn;
+document.getElementById("account").hidden=!loggedIn;
+document.getElementById("userEmail").textContent=loggedIn?(session.user.email||""): "";
+}
+
+client.auth.getSession().then(({data,error})=>{
+if(error)msg.textContent=error.message;
+showAuth(data?.session||null);
+});
+
+client.auth.onAuthStateChange((event,session)=>{
+showAuth(session);
+if(event==="SIGNED_IN")msg.textContent="লগইন সফল হয়েছে!";
+if(event==="SIGNED_OUT")msg.textContent="আপনি লগআউট করেছেন।";
+});
+
+document.getElementById("signup").addEventListener("click",async()=>{
+const email=document.getElementById("email").value.trim();
+const password=document.getElementById("password").value;
+if(!email||password.length<6){
+msg.textContent="সঠিক ইমেইল দিন এবং কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন।";
+return;
+}
+msg.textContent="অ্যাকাউন্ট তৈরি হচ্ছে...";
+const {data,error}=await client.auth.signUp({
+email,password,
+options:{emailRedirectTo:"https://kamrul1923.github.io/earnbd-mini-app/"}
+});
+if(error)msg.textContent=error.message;
+else if(data.session){
+msg.textContent="অ্যাকাউন্ট তৈরি হয়েছে এবং লগইন হয়েছে!";
+showAuth(data.session);
+}else{
+msg.textContent="ইমেইল চেক করুন এবং confirmation link-এ চাপ দিন।";
+}
+});
+
+document.getElementById("login").addEventListener("click",async()=>{
+const email=document.getElementById("email").value.trim();
+const password=document.getElementById("password").value;
+if(!email||!password){
+msg.textContent="ইমেইল ও পাসওয়ার্ড দিন।";
+return;
+}
+msg.textContent="লগইন হচ্ছে...";
+const {data,error}=await client.auth.signInWithPassword({email,password});
+if(error)msg.textContent=error.message;
+else{
+msg.textContent="লগইন সফল হয়েছে!";
+showAuth(data.session);
+}
+});
+
+document.getElementById("logout").addEventListener("click",async()=>{
+const {error}=await client.auth.signOut();
+msg.textContent=error?error.message:"লগআউট সম্পন্ন হয়েছে।";
+if(!error)showAuth(null);
+});
+}
 </script>
-<div id="earnbd-auth" style="max-width:400px;margin:20px auto;padding:20px;border:1px solid #ddd;border-radius:12px">
-  <h2>EarnBD Account</h2>
-  <input id="eb-email" type="email" placeholder="Email address" style="width:100%;padding:12px;margin:8px 0">
-  <input id="eb-password" type="password" placeholder="Password (6+ characters)" style="width:100%;padding:12px;margin:8px 0">
-  <button id="eb-signup" style="width:100%;padding:12px">Sign Up</button>
-  <button id="eb-login" style="width:100%;padding:12px">Log In</button>
-  <p id="eb-message"></p>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const SUPABASE_URL = "https://nlhzpnjhmcslwfivncbx.supabase.co";
-const SUPABASE_KEY = "sb_publishable_BfTXD5SedTNHLEWEFPXy1Q_EUO0x0_v";
-
-const ebClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-
-const ebMessage = document.getElementById("eb-message");
-
-document.getElementById("eb-signup").onclick = async () => {
-  const email = document.getElementById("eb-email").value.trim();
-  const password = document.getElementById("eb-password").value;
-
-  if (!email || password.length < 6) {
-    ebMessage.textContent = "Email দিন এবং কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন।";
-    return;
-  }
-
-  const { error } = await ebClient.auth.signUp({
-    email,
-    password,
-    options: {
-      emailRedirectTo: "https://kamrul1923.github.io/earnbd-mini-app/"
-    }
-  });
-
-  ebMessage.textContent = error
-    ? error.message
-    : "ইমেইল চেক করে অ্যাকাউন্ট নিশ্চিত করুন।";
-};
-
-document.getElementById("eb-login").onclick = async () => {
-  const email = document.getElementById("eb-email").value.trim();
-  const password = document.getElementById("eb-password").value;
-
-  const { error } = await ebClient.auth.signInWithPassword({
-    email,
-    password
-  });
-
-  ebMessage.textContent = error
-    ? error.message
-    : "Login successful!";
-};
-</script> </body>
+</body>
 </html>
