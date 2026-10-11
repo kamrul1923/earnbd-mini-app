@@ -251,7 +251,7 @@ function showAuth(session){
 const loggedIn=!!session;
 document.getElementById("loginForm").hidden=loggedIn;
 document.getElementById("account").hidden=!loggedIn;
-document.getElementById("userEmail").textContent=loggedIn?(session.user.email||""): "";
+document.getElementById("userEmail").textContent=loggedIn?"Welcome to EarnBD 🎉":"";
 }
 
 client.auth.getSession().then(({data,error})=>{
