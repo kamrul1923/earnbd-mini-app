@@ -15,7 +15,6 @@ header{background:linear-gradient(135deg,#075b3a,#0b9860);color:#fff;padding:18p
 .brand{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:900;letter-spacing:-.4px}
 .logo{width:43px;height:43px;display:grid;place-items:center;background:#ffffff1c;border:1px solid #ffffff55;border-radius:15px}
 .logo svg{width:29px;height:29px}
-.demo{font-size:10px;font-weight:800;letter-spacing:.5px;padding:7px 10px;border-radius:20px;background:#ffffff20;border:1px solid #ffffff45}
 header h1{font-size:26px;line-height:1.25;margin:24px 0 7px}
 header p{font-size:13px;line-height:1.7;margin:0;color:#e4f6eb}
 .header-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:17px}
@@ -88,7 +87,6 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.8;paddi
       </div>
       <span>EarnBD</span>
     </div>
-    <span class="demo">● DEMO PREVIEW</span>
   </div>
   <h1>Earn Together.<br>Grow Together.</h1>
   <p>শিখুন, নিরাপদে কাজ করুন এবং আপনার অগ্রগতি দেখুন।</p>
@@ -103,7 +101,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.8;paddi
     <div class="card balance">
       <div class="eyebrow">আপনার Wallet Balance</div>
       <div class="amount" id="homeBalance">৳0.00</div>
-      <div class="sub">ডেমো হিসাব · নগদ উত্তোলন চালু নেই</div>
+      <div class="sub">পেমেন্ট সুবিধা এখনো চালু হয়নি</div>
       <div class="btnrow">
         <button class="btn white" onclick="showPage('wallet')">💰 Wallet খুলুন</button>
         <button class="btn ghost" onclick="showPage('tasks')">কাজ শুরু করুন ↗</button>
@@ -158,10 +156,10 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.8;paddi
   <section id="tasks" class="page">
     <div class="card">
       <div class="section-head"><h3>📝 Daily Tasks</h3><span class="pill">৩টি কাজ</span></div>
-      <p class="muted">প্রতিটি সাধারণ ডেমো কাজ একবার সম্পন্ন করা যাবে।</p>
+      <p class="muted">প্রতিটি কাজ একবার সম্পন্ন করা যাবে।</p>
       <div id="taskList"></div>
     </div>
-    <div class="info">এই সাধারণ কাজগুলো অ্যাপের লোকাল ডেমো অগ্রগতি দেখায়। এগুলো বাস্তব আয় নয়। বিজ্ঞাপনের পুরস্কার এই সাধারণ কাজের বোতাম থেকে দেওয়া হয় না।</div>
+    <div class="info">কাজের অগ্রগতি আপনার অ্যাকাউন্টে সংরক্ষিত হবে। বিজ্ঞাপনের পুরস্কার সাধারণ কাজের বোতাম থেকে দেওয়া হয় না। পেমেন্ট সুবিধা চালু না হওয়া পর্যন্ত এই হিসাব উত্তোলন করা যাবে না।</div>
   </section>
 
   <section id="ads" class="page">
@@ -173,7 +171,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.8;paddi
         <div class="stat"><div class="label">আজকের বিজ্ঞাপন ক্রেডিট</div><strong id="adCreditToday">৳0.00</strong></div>
       </div>
       <hr>
-      <div class="info">শুধু বিজ্ঞাপন নেটওয়ার্কের নিশ্চিত “valued” reward পাওয়া গেলে স্থানীয় ডেমো হিসাব আপডেট হবে। এটি ক্লায়েন্ট-সাইড ডেমো হিসাব; প্রকৃত অর্থপ্রদান বা জালিয়াতি-প্রতিরোধের জন্য সার্ভার-সাইড যাচাই প্রয়োজন।</div>
+      <div class="info">শুধু বিজ্ঞাপন নেটওয়ার্কের নিশ্চিত “valued” reward পাওয়া গেলে হিসাব আপডেট হবে। অর্থপ্রদান ও পুরস্কার যাচাইয়ের জন্য সার্ভার-সাইড যাচাই প্রয়োজন।</div>
       <div class="btnrow"><button id="watchAdBtn" class="btn full" onclick="watchAd()">▶ বিজ্ঞাপন চালু করুন</button></div>
       <p class="note">SDK লোড না হলে, বিজ্ঞাপন না থাকলে বা reward যাচাই না হলে কোনো ক্রেডিট যোগ হবে না। একই দিনের কাজের সীমা ৩০টি।</p>
     </div>
@@ -211,25 +209,25 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.8;paddi
       <div class="section-head"><h3>🎁 Rewards</h3><span class="pill">MILESTONES</span></div>
       <div class="reward"><div class="task-icon">⭐</div><div class="itembody"><strong>প্রথম কাজ সম্পন্ন</strong><div class="note">একটি সাধারণ Daily Task শেষ করুন।</div></div><span id="firstReward" class="pill gray">অসম্পন্ন</span></div>
       <div class="reward"><div class="task-icon">🏆</div><div class="itembody"><strong>সব সাধারণ কাজ সম্পন্ন</strong><div class="note">তিনটি সাধারণ কাজ শেষ করুন।</div></div><span id="allReward" class="pill gray">অসম্পন্ন</span></div>
-      <div class="info">এগুলো অ্যাপের অগ্রগতির ব্যাজ, বাস্তব পুরস্কার বা উত্তোলনযোগ্য টাকা নয়।</div>
+      <div class="info">এগুলো অ্যাপের অগ্রগতির ব্যাজ। পুরস্কার প্রদান ও উত্তোলনের সুবিধা এখনো চালু হয়নি।</div>
     </div>
   </section>
 
   <section id="referral" class="page">
     <div class="card">
       <div class="section-head"><h3>👥 Referral</h3><span class="pill">INVITE</span></div>
-      <p class="muted">আপনার ডেমো Referral ID</p>
+      <p class="muted">আপনার Referral ID</p>
       <input id="refId" readonly>
       <div class="btnrow"><button class="btn" onclick="copyReferral()">ID কপি করুন</button><button class="btn secondary" onclick="shareReferral()">Share</button></div>
-      <hr><div class="info">Referral ID এবং শেয়ার লিংক ডেমোর জন্য। রেফারেল থেকে বাস্তব আয় চালু নেই।</div>
+      <hr><div class="info">Referral ID ও শেয়ার লিংক বন্ধুদের আমন্ত্রণ জানাতে ব্যবহার করুন। রেফারেল পুরস্কার এখনো চালু হয়নি।</div>
     </div>
   </section>
 
   <section id="wallet" class="page">
     <div class="card balance">
-      <div class="eyebrow">ডেমো Wallet Balance</div>
+      <div class="eyebrow">Wallet Balance</div>
       <div class="amount" id="walletBalance">৳0.00</div>
-      <div class="sub">এটি স্থানীয় ডেমো হিসাব—উত্তোলনযোগ্য বাস্তব টাকা নয়।</div>
+      <div class="sub">টাকা জমা ও উত্তোলনের সুবিধা এখনো চালু হয়নি</div>
       <div class="btnrow">
         <button class="btn white" onclick="openPaymentForm('deposit')">＋ Deposit Request</button>
         <button class="btn ghost" onclick="openPaymentForm('withdraw')">↗ Withdraw Request</button>
@@ -264,17 +262,17 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.8;paddi
       <div id="adminPaymentRequests"><div class="empty">আবেদন লোড হচ্ছে...</div></div>
     </div>
     <div class="card">
-      <div class="section-head"><h3>📊 Wallet Summary</h3><span class="pill">DEMO</span></div>
+      <div class="section-head"><h3>📊 Wallet Summary</h3></div>
       <div class="stats">
-        <div class="stat"><div class="label">মোট ডেমো অর্জন</div><strong id="totalEarned">৳0.00</strong><div class="mini">ডেমো ক্রেডিটের যোগফল</div></div>
-        <div class="stat"><div class="label">মোট ডেমো লেনদেন</div><strong id="transactionCount">0</strong><div class="mini">লোকাল ডেমো রেকর্ড</div></div>
+        <div class="stat"><div class="label">মোট অর্জন</div><strong id="totalEarned">৳0.00</strong><div class="mini">সব সংরক্ষিত অর্জনের যোগফল</div></div>
+        <div class="stat"><div class="label">মোট লেনদেন</div><strong id="transactionCount">0</strong><div class="mini">সংরক্ষিত লেনদেনের সংখ্যা</div></div>
       </div>
     </div>
     <div class="card">
-      <div class="section-head"><h3>📜 Demo Transaction History</h3><button class="btn secondary small" onclick="renderAll()">Refresh</button></div>
+      <div class="section-head"><h3>📜 Transaction History</h3><button class="btn secondary small" onclick="renderAll()">Refresh</button></div>
       <div id="historyList"></div>
     </div>
-    <p class="note" style="text-align:center">ডেমো ব্যালেন্স বাস্তব টাকা নয়। আবেদনগুলো ম্যানুয়াল রিভিউয়ের জন্য; এই পেজ নিজে থেকে টাকা পাঠায় না।</p>
+    <p class="note" style="text-align:center">পেমেন্ট সুবিধা এখনো চালু হয়নি। আবেদনগুলো ম্যানুয়াল যাচাইয়ের জন্য; আবেদন জমা দিলেই টাকা স্থানান্তর হয় না।</p>
   </section>
 </div>
 
@@ -286,7 +284,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.8;paddi
   <button data-page="wallet" onclick="showPage('wallet')"><span class="ico">৳</span>Wallet</button>
 </nav>
 <div id="toast" role="status" aria-live="polite"></div>
-<footer>EarnBD · Demo Preview · Requests require manual review; no automatic cash transfer</footer>
+<footer>EarnBD · আবেদনগুলো ম্যানুয়ালি যাচাই করা হয়; স্বয়ংক্রিয় টাকা স্থানান্তর চালু নেই</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://libtl.com/sdk.js" data-zone="12015453" data-sdk="show_12015453"></script>
@@ -296,11 +294,11 @@ const SUPABASE_URL="https://nlhzpnjhmcslwfivncbx.supabase.co";
 const SUPABASE_KEY="sb_publishable_BfTXD5SedTNHLEWEFPXy1Q_EUO0x0_v";
 const STORAGE_KEY="earnbd_full_v1";
 const DAILY_AD_LIMIT=30;
-const DISPLAY_CURRENCY_RATE=1; // ৳1 shown for each stored demo point; display only, not real value.
+const DISPLAY_CURRENCY_RATE=1; // Display amount in Bangladeshi taka format.
 const TASKS=[
-{id:"learn",title:"EarnBD সম্পর্কে জানুন",description:"ডেমো প্ল্যাটফর্মের নিয়মগুলো পড়ুন।",points:10,icon:"📘"},
+{id:"learn",title:"EarnBD সম্পর্কে জানুন",description:"EarnBD ব্যবহারের নিয়মগুলো পড়ুন।",points:10,icon:"📘"},
 {id:"safety",title:"অনলাইন নিরাপত্তা",description:"পাসওয়ার্ড ও ব্যক্তিগত তথ্য সুরক্ষিত রাখুন।",points:15,icon:"🛡️"},
-{id:"welcome",title:"Welcome Task",description:"EarnBD-এর ডেমো কার্যক্রম শুরু করুন।",points:5,icon:"🎉"}
+{id:"welcome",title:"Welcome Task",description:"EarnBD ব্যবহার শুরু করুন।",points:5,icon:"🎉"}
 ];
 let supabaseClient=null,currentSession=null,authBusy=false,toastTimer=null,adBusy=false,videoType="long",paymentRequestType="deposit",isEarnBDAdmin=false,paymentBusy=false;
 function defaultState(){return{points:0,done:[],refId:"",transactions:[],adDays:{}}}
@@ -315,12 +313,12 @@ function loadState(){
  if(Array.isArray(old.done))s.done=old.done.filter(id=>TASKS.some(t=>t.id===id));
  else if(old.done&&typeof old.done==="object")s.done=TASKS.filter(t=>old.done[t.id]===true).map(t=>t.id);
  s.refId=typeof old.refId==="string"&&old.refId?old.refId:makeReferralId();
- s.transactions=Array.isArray(old.transactions)?old.transactions.filter(t=>t&&typeof t==="object").map(t=>({id:String(t.id||makeId()),title:String(t.title||"ডেমো লেনদেন"),amount:safeNumber(t.amount),type:t.type==="legacy"?"legacy":(t.type==="ad"?"ad":"earn"),date:validDate(t.date),day:typeof t.day==="string"?t.day:""})):[];
+ s.transactions=Array.isArray(old.transactions)?old.transactions.filter(t=>t&&typeof t==="object").map(t=>({id:String(t.id||makeId()),title:String(t.title||"লেনদেন"),amount:safeNumber(t.amount),type:t.type==="legacy"?"legacy":(t.type==="ad"?"ad":"earn"),date:validDate(t.date),day:typeof t.day==="string"?t.day:""})):[];
  if(old.adDays&&typeof old.adDays==="object")s.adDays=old.adDays;
  if(s.transactions.length===0&&s.points>0){
   let represented=0;
   for(const task of TASKS){if(s.done.includes(task.id)){s.transactions.push({id:makeId(),title:task.title+" (পুরোনো রেকর্ড)",amount:task.points,type:"earn",date:new Date().toISOString(),day:""});represented+=task.points}}
-  if(s.points>represented)s.transactions.push({id:makeId(),title:"আগের ডেমো ব্যালেন্স",amount:s.points-represented,type:"legacy",date:new Date().toISOString(),day:""});
+  if(s.points>represented)s.transactions.push({id:makeId(),title:"আগের ব্যালেন্স",amount:s.points-represented,type:"legacy",date:new Date().toISOString(),day:""});
  }
  return s;
 }
@@ -346,7 +344,7 @@ function completeTask(id){
  const task=TASKS.find(t=>t.id===id);if(!task)return;
  if(state.done.includes(id)){showToast("এই কাজটি আগেই সম্পন্ন হয়েছে।");return}
  state.done.push(id);addTransaction(task.title,task.points,"earn");
- showToast("ডেমো হিসাবে "+money(task.points)+" যোগ হয়েছে।");
+ showToast("হিসাবে "+money(task.points)+" যোগ হয়েছে।");
 }
 function renderTasks(){
  document.getElementById("taskList").innerHTML=TASKS.map(t=>{
@@ -359,7 +357,7 @@ function renderHistory(){
  const list=document.getElementById("historyList");
  document.getElementById("totalEarned").textContent=money(totalEarned());
  document.getElementById("transactionCount").textContent=state.transactions.length.toLocaleString("bn-BD");
- if(!state.transactions.length){list.innerHTML='<div class="empty">এখনো কোনো লেনদেন নেই।<br>যোগ্য ডেমো কাজ সম্পন্ন হলে ইতিহাস এখানে দেখা যাবে।</div>';return}
+ if(!state.transactions.length){list.innerHTML='<div class="empty">এখনো কোনো লেনদেন নেই।<br>কোনো কাজ সম্পন্ন হলে হিসাবের ইতিহাস এখানে দেখা যাবে।</div>';return}
  list.innerHTML=state.transactions.map(t=>`<div class="history"><div class="task-icon">${t.type==="ad"?"📺":"🟢"}</div><div class="itembody"><strong>${escapeHTML(t.title)}</strong><div class="note">${escapeHTML(formatDate(t.date))}</div></div><div class="points">+${money(t.amount)}</div></div>`).join("");
 }
 function renderRewards(){
@@ -387,14 +385,14 @@ function renderAll(){
  document.getElementById("homeDone").textContent=state.done.length.toLocaleString("bn-BD");
  renderTasks();renderHistory();renderRewards();renderReferral();renderAds();
 }
-function demoAction(action){showToast(action+" সুবিধা এখনো চালু হয়নি। এটি ডেমো হিসাব; বাস্তব টাকা জমা বা তোলা যাবে না।")}
+function paymentAction(action){showToast(action+" সুবিধা এখনো চালু হয়নি।") }
 async function copyText(text){
  try{if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(text);else{const x=document.createElement("textarea");x.value=text;x.style.position="fixed";x.style.opacity="0";document.body.appendChild(x);x.select();const ok=document.execCommand("copy");x.remove();if(!ok)throw Error("copy failed")}showToast("কপি হয়েছে!")}catch(e){showToast("কপি করা যায়নি। লেখাটি ধরে কপি করুন।")}
 }
 function copyReferral(){copyText(state.refId)}
 async function shareReferral(){
  const link=location.origin+location.pathname+"?ref="+encodeURIComponent(state.refId);
- if(navigator.share){try{await navigator.share({title:"EarnBD",text:"আমার EarnBD ডেমো Referral ID: "+state.refId,url:link})}catch(e){}}else copyText(link)
+ if(navigator.share){try{await navigator.share({title:"EarnBD",text:"আমার EarnBD Referral ID: "+state.refId,url:link})}catch(e){}}else copyText(link)
 }
 function showVideoType(type){
  videoType=type;
@@ -418,12 +416,12 @@ async function watchAd(){
  if(typeof sdk!=="function"){showToast("বিজ্ঞাপন SDK এখনো প্রস্তুত নয় বা বিজ্ঞাপন পাওয়া যাচ্ছে না। কোনো ক্রেডিট যোগ হয়নি।");return}
  adBusy=true;renderAds();
  try{
-  const reward=await sdk({type:"end",ymid:"earnbd_"+makeId(),requestVar:"earnbd_demo"});
+  const reward=await sdk({type:"end",ymid:"earnbd_"+makeId(),requestVar:"earnbd_reward"});
   const valued=!!reward&&typeof reward==="object"&&reward.reward_event_type==="valued";
   if(!valued){showToast("বিজ্ঞাপনের নিশ্চিত পুরস্কার পাওয়া যায়নি। কোনো ক্রেডিট যোগ হয়নি।");return}
-  // Demo credit only. Production cash rewards require trusted server-side postback verification.
+  // Reward credits require trusted server-side postback verification before real payouts.
   addTransaction("Monetag নিশ্চিত বিজ্ঞাপন পুরস্কার",10,"ad",todayKey());
-  showToast("বিজ্ঞাপনের valued reward নিশ্চিত হয়েছে। ডেমো হিসাবে "+money(10)+" যোগ হয়েছে।");
+  showToast("বিজ্ঞাপনের valued reward নিশ্চিত হয়েছে। হিসাবে "+money(10)+" যোগ হয়েছে।");
  }catch(e){
   showToast("বিজ্ঞাপন সম্পন্ন/যাচাই করা যায়নি। কোনো ক্রেডিট যোগ হয়নি.");
  }finally{adBusy=false;renderAds()}
@@ -541,4 +539,4 @@ async function initAuth(){
 renderAll();showVideoType("long");initAuth();
 </script>
 </body>
-          </html>
+  </html>
