@@ -69,6 +69,13 @@ nav button.active{background:var(--soft);color:var(--green)}
 .ad-banner strong{display:block;font-size:13px;margin-bottom:5px}
 .video-tabs{display:flex;gap:8px;margin-bottom:13px}
 .video-tabs button{flex:1}
+.video-task-card{border:1px solid var(--line);border-radius:15px;padding:12px;margin:10px 0;background:#fff}
+.video-task-top{display:flex;align-items:flex-start;gap:10px}
+.video-task-card .task-icon{width:45px;height:45px}
+.video-player-wrap{margin-top:14px;background:#10251b;border-radius:15px;overflow:hidden}
+.video-player-wrap iframe{display:block;width:100%;aspect-ratio:16/9;border:0}
+.video-player-caption{padding:12px;color:#fff;font-size:12px;line-height:1.7}
+.video-task-card .btnrow{margin-top:10px}
 #toast{display:none;position:fixed;z-index:30;left:50%;bottom:88px;transform:translateX(-50%);width:max-content;max-width:90%;padding:12px 16px;border-radius:13px;background:#163329;color:#fff;font-size:12px;box-shadow:var(--shadow)}
 footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.8;padding:14px}
 @media(min-width:620px){.wrap{padding:22px 18px}nav{max-width:760px;margin:auto;border-radius:18px 18px 0 0}.amount{font-size:40px}}
@@ -118,18 +125,8 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.8;paddi
 
     <div class="card">
       <div class="section-head"><h3>⚡ দ্রুত প্রবেশ</h3><span class="pill gray">EXPLORE</span></div>
-      <div class="task">
-        <div class="task-icon">📺</div><div class="itembody"><strong>বিজ্ঞাপন দেখুন</strong><div class="note">Monetag-এর মাধ্যমে বিজ্ঞাপনভিত্তিক কাজ।</div></div>
-        <button class="btn small" onclick="showPage('ads')">খুলুন</button>
-      </div>
-      <div class="task">
-        <div class="task-icon">▶️</div><div class="itembody"><strong>YouTube ভিডিও</strong><div class="note">Long Video এবং Shorts আলাদা বিভাগে।</div></div>
-        <button class="btn small" onclick="showPage('videos')">খুলুন</button>
-      </div>
-      <div class="task">
-        <div class="task-icon">📝</div><div class="itembody"><strong>Daily Tasks</strong><div class="note">শেখার ও নিরাপত্তা-সংক্রান্ত কাজ।</div></div>
-        <button class="btn small" onclick="showPage('tasks')">খুলুন</button>
-      </div>
+      <div class="task"><div class="task-icon">🎯</div><div class="itembody"><strong>Daily Tasks</strong><div class="note">সাধারণ কাজ, Short Video ও Long Video—সব এক জায়গায়।</div></div><button class="btn small" onclick="showPage('tasks')">কাজ দেখুন</button></div>
+      <div class="task"><div class="task-icon">💰</div><div class="itembody"><strong>Wallet</strong><div class="note">ডেমো কয়েন ও লেনদেনের ইতিহাস দেখুন।</div></div><button class="btn small" onclick="showPage('wallet')">খুলুন</button></div>
     </div>
 
     <div class="card">
@@ -155,60 +152,31 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.8;paddi
 
   <section id="tasks" class="page">
     <div class="card">
-      <div class="section-head"><h3>📝 Daily Tasks</h3><span class="pill">৩টি কাজ</span></div>
-      <p class="muted">প্রতিটি সাধারণ ডেমো কাজ একবার সম্পন্ন করা যাবে।</p>
+      <div class="section-head"><h3>🎯 Daily Tasks</h3><span class="pill">সব কাজ এক জায়গায়</span></div>
+      <p class="muted">সাধারণ ডেমো কাজ, Short Video এবং Long / Full Video—সব টাস্ক এখানে থাকবে। প্রতিটি কাজের ডেমো কয়েন একবারই যোগ হবে।</p>
+      <div class="section-head"><h3>📝 সাধারণ কাজ</h3><span class="pill gray">BASIC</span></div>
       <div id="taskList"></div>
-    </div>
-    <div class="info">এই সাধারণ কাজগুলো অ্যাপের লোকাল ডেমো অগ্রগতি দেখায়। এগুলো বাস্তব আয় নয়। বিজ্ঞাপনের পুরস্কার এই সাধারণ কাজের বোতাম থেকে দেওয়া হয় না।</div>
-  </section>
-
-  <section id="ads" class="page">
-    <div class="card">
-      <div class="section-head"><h3>📺 বিজ্ঞাপন কেন্দ্র</h3><span class="pill">MONETAG</span></div>
-      <div class="ad-banner"><strong>প্রতিদিন সর্বোচ্চ ৩০টি বিজ্ঞাপন কাজ</strong><span class="muted">বিজ্ঞাপন পাওয়া ও পুরস্কার নিশ্চিত হওয়া বিজ্ঞাপন নেটওয়ার্কের ওপর নির্ভর করে।</span></div>
-      <div class="stats">
-        <div class="stat"><div class="label">আজকের নিশ্চিত বিজ্ঞাপন</div><strong id="adsToday">0 / 30</strong></div>
-        <div class="stat"><div class="label">আজকের বিজ্ঞাপন ক্রেডিট</div><strong id="adCreditToday">৳0.00</strong></div>
-      </div>
       <hr>
-      <div class="info">শুধু বিজ্ঞাপন নেটওয়ার্কের নিশ্চিত “valued” reward পাওয়া গেলে স্থানীয় ডেমো হিসাব আপডেট হবে। এটি ক্লায়েন্ট-সাইড ডেমো হিসাব; প্রকৃত অর্থপ্রদান বা জালিয়াতি-প্রতিরোধের জন্য সার্ভার-সাইড যাচাই প্রয়োজন।</div>
-      <div class="btnrow"><button id="watchAdBtn" class="btn full" onclick="watchAd()">▶ বিজ্ঞাপন চালু করুন</button></div>
-      <p class="note">SDK লোড না হলে, বিজ্ঞাপন না থাকলে বা reward যাচাই না হলে কোনো ক্রেডিট যোগ হবে না। একই দিনের কাজের সীমা ৩০টি।</p>
-    </div>
-    <div class="card">
-      <div class="section-head"><h3>📅 আজকের বিজ্ঞাপন হিসাব</h3><span class="pill gray">DAILY</span></div>
-      <div id="adHistory"><div class="empty">আজকের বিজ্ঞাপন এখনো সম্পন্ন হয়নি।</div></div>
-    </div>
-  </section>
-
-  <section id="videos" class="page">
-    <div class="card">
-      <div class="section-head"><h3>▶️ ভিডিও বিভাগ</h3><span class="pill">YOUTUBE</span></div>
-      <p class="muted">Long Video ও Shorts আলাদা করে সাজানো হয়েছে। ভিডিও দেখা যাচাই করার ব্যবস্থা না থাকায় এখানে দেখার বোতাম নিজে থেকে টাকা/ক্রেডিট যোগ করে না।</p>
-      <div class="video-tabs">
-        <button id="longTab" class="btn" onclick="showVideoType('long')">📺 Long Video</button>
-        <button id="shortTab" class="btn secondary" onclick="showVideoType('shorts')">📱 Shorts</button>
-      </div>
-      <div id="longVideos">
-        <div class="task"><div class="task-icon">📺</div><div class="itembody"><strong>YouTube Long Video</strong><div class="note">তোমার পছন্দের ভিডিওর লিংক নিচে যোগ করতে পারো।</div><span class="pill gray">Reward verification unavailable</span></div></div>
-        <label for="longUrl">Long Video URL</label><input id="longUrl" type="url" placeholder="https://www.youtube.com/watch?v=...">
-        <button class="btn full" onclick="openVideo('longUrl')">YouTube-এ খুলুন ↗</button>
-      </div>
-      <div id="shortVideos" hidden>
-        <div class="task"><div class="task-icon">📱</div><div class="itembody"><strong>YouTube Shorts</strong><div class="note">Shorts ভিডিওর লিংক যোগ করে খুলুন।</div><span class="pill gray">Reward verification unavailable</span></div></div>
-        <label for="shortUrl">Shorts URL</label><input id="shortUrl" type="url" placeholder="https://www.youtube.com/shorts/...">
-        <button class="btn full" onclick="openVideo('shortUrl')">Shorts খুলুন ↗</button>
-      </div>
+      <div class="section-head"><h3>📱 Short Video Tasks</h3><span class="pill">SHORTS</span></div>
+      <div id="shortVideoTaskList"></div>
       <hr>
-      <div class="info">শুধু ভিডিও খোলা, সময় গণনা বা বোতাম চাপা দিয়ে ভিডিও দেখা প্রমাণিত হয় না। তাই যাচাইযোগ্য সিস্টেম যুক্ত না হওয়া পর্যন্ত ভিডিওর জন্য স্বয়ংক্রিয় পুরস্কার বন্ধ।</div>
+      <div class="section-head"><h3>📺 Long / Full Video Tasks</h3><span class="pill">LONG VIDEO</span></div>
+      <div id="longVideoTaskList"></div>
+      <div id="videoPlayerPanel" hidden>
+        <hr>
+        <div class="section-head"><h3 id="playerTitle">▶️ ভিডিও দেখুন</h3><span id="playerReward" class="pill gold">ডেমো কয়েন</span></div>
+        <div class="video-player-wrap"><div id="youtubePlayer"></div><div id="playerCaption" class="video-player-caption">ভিডিওটি এই Mini App-এর ভেতরে চালু হবে। ভিডিও শেষ হলে ডেমো টাস্ক সম্পন্ন হিসেবে চিহ্নিত হবে।</div></div>
+        <p class="note">ডেমো সতর্কতা: ভিডিও শেষ হওয়ার ইভেন্ট ব্রাউজারে যাচাই করা হয়; এটি প্রকৃত দেখা বা বাস্তব পুরস্কারের নিরাপদ প্রমাণ নয়।</p>
+      </div>
     </div>
+    <div class="info">সব কয়েন ডেমো পয়েন্ট। এগুলো বাস্তব টাকা নয় এবং উত্তোলন করা যাবে না। ভিডিও টাস্কের পুরস্কার ভিডিও প্লেয়ারের শেষ হওয়ার ইভেন্টে একবার যোগ হয়; প্রকৃত পুরস্কারের জন্য সার্ভার-সাইড যাচাই প্রয়োজন।</div>
   </section>
 
   <section id="rewards" class="page">
     <div class="card">
       <div class="section-head"><h3>🎁 Rewards</h3><span class="pill">MILESTONES</span></div>
       <div class="reward"><div class="task-icon">⭐</div><div class="itembody"><strong>প্রথম কাজ সম্পন্ন</strong><div class="note">একটি সাধারণ Daily Task শেষ করুন।</div></div><span id="firstReward" class="pill gray">অসম্পন্ন</span></div>
-      <div class="reward"><div class="task-icon">🏆</div><div class="itembody"><strong>সব সাধারণ কাজ সম্পন্ন</strong><div class="note">তিনটি সাধারণ কাজ শেষ করুন।</div></div><span id="allReward" class="pill gray">অসম্পন্ন</span></div>
+      <div class="reward"><div class="task-icon">🏆</div><div class="itembody"><strong>সব টাস্ক সম্পন্ন</strong><div class="note">সাধারণ কাজ ও ভিডিও টাস্ক সম্পন্ন করুন।</div></div><span id="allReward" class="pill gray">অসম্পন্ন</span></div>
       <div class="info">এগুলো অ্যাপের অগ্রগতির ব্যাজ, বাস্তব পুরস্কার বা উত্তোলনযোগ্য টাকা নয়।</div>
     </div>
   </section>
@@ -250,16 +218,15 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.8;paddi
 
 <nav aria-label="প্রধান নেভিগেশন">
   <button class="active" data-page="home" onclick="showPage('home')"><span class="ico">⌂</span>Home</button>
-  <button data-page="tasks" onclick="showPage('tasks')"><span class="ico">☷</span>Tasks</button>
-  <button data-page="ads" onclick="showPage('ads')"><span class="ico">▣</span>Ads</button>
-  <button data-page="videos" onclick="showPage('videos')"><span class="ico">▶</span>Videos</button>
+  <button data-page="tasks" onclick="showPage('tasks')"><span class="ico">☷</span>Daily Tasks</button>
+  <button data-page="rewards" onclick="showPage('rewards')"><span class="ico">🎁</span>Rewards</button>
+  <button data-page="referral" onclick="showPage('referral')"><span class="ico">👥</span>Referral</button>
   <button data-page="wallet" onclick="showPage('wallet')"><span class="ico">৳</span>Wallet</button>
 </nav>
 <div id="toast" role="status" aria-live="polite"></div>
-<footer>EarnBD · Demo Preview · Display values are not withdrawable cash</footer>
+<footer>EarnBD · Demo Preview · Demo points are not withdrawable cash</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://libtl.com/sdk.js" data-zone="12015453" data-sdk="show_12015453"></script>
 <script>
 "use strict";
 const SUPABASE_URL="https://nlhzpnjhmcslwfivncbx.supabase.co";
@@ -272,7 +239,14 @@ const TASKS=[
 {id:"safety",title:"অনলাইন নিরাপত্তা",description:"পাসওয়ার্ড ও ব্যক্তিগত তথ্য সুরক্ষিত রাখুন।",points:15,icon:"🛡️"},
 {id:"welcome",title:"Welcome Task",description:"EarnBD-এর ডেমো কার্যক্রম শুরু করুন।",points:5,icon:"🎉"}
 ];
-let supabaseClient=null,currentSession=null,authBusy=false,toastTimer=null,adBusy=false,videoType="long";
+// নিজের ভিডিও বসাতে নিচের videoId-তে YouTube ভিডিওর ID দিন। যেমন: youtube.com/watch?v=VIDEO_ID
+// এগুলো নমুনা ভিডিও ID; নিজের উপযুক্ত ভিডিও দিয়ে বদলে নেবে।
+const VIDEO_TASKS=[
+{id:"short_demo_1",kind:"shorts",title:"Short Video Task 01",description:"Mini App-এর ভেতরে Shorts ভিডিওটি শেষ পর্যন্ত দেখুন।",points:10,icon:"📱",videoId:"M7lc1UVf-VE"},
+{id:"long_demo_1",kind:"long",title:"Long / Full Video Task 01",description:"Mini App-এর ভেতরে Full Video-টি শেষ পর্যন্ত দেখুন।",points:25,icon:"📺",videoId:"aqz-KE-bpKQ"}
+];
+let activeVideoTaskId=null,ytPlayer=null,ytApiReady=false,ytApiLoading=false;
+let supabaseClient=null,currentSession=null,authBusy=false,toastTimer=null;
 function defaultState(){return{points:0,done:[],refId:"",transactions:[],adDays:{}}}
 function safeNumber(v){const n=Number(v);return Number.isFinite(n)&&n>=0?Math.floor(n):0}
 function makeId(){return"tx_"+Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
@@ -282,8 +256,8 @@ function todayKey(){const d=new Date();return d.getFullYear()+"-"+String(d.getMo
 function loadState(){
  let old={};try{old=JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}")||{}}catch(e){}
  const s=defaultState();s.points=safeNumber(old.points);
- if(Array.isArray(old.done))s.done=old.done.filter(id=>TASKS.some(t=>t.id===id));
- else if(old.done&&typeof old.done==="object")s.done=TASKS.filter(t=>old.done[t.id]===true).map(t=>t.id);
+ if(Array.isArray(old.done))s.done=old.done.filter(id=>TASKS.some(t=>t.id===id)||VIDEO_TASKS.some(t=>t.id===id));
+ else if(old.done&&typeof old.done==="object")s.done=[...TASKS,...VIDEO_TASKS].filter(t=>old.done[t.id]===true).map(t=>t.id);
  s.refId=typeof old.refId==="string"&&old.refId?old.refId:makeReferralId();
  s.transactions=Array.isArray(old.transactions)?old.transactions.filter(t=>t&&typeof t==="object").map(t=>({id:String(t.id||makeId()),title:String(t.title||"ডেমো লেনদেন"),amount:safeNumber(t.amount),type:t.type==="legacy"?"legacy":(t.type==="ad"?"ad":"earn"),date:validDate(t.date),day:typeof t.day==="string"?t.day:""})):[];
  if(old.adDays&&typeof old.adDays==="object")s.adDays=old.adDays;
@@ -300,7 +274,7 @@ function money(n){return"৳"+(Math.max(0,Number(n)||0)*DISPLAY_CURRENCY_RATE).t
 function escapeHTML(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function showToast(message){const el=document.getElementById("toast");el.textContent=message;el.style.display="block";if(toastTimer)clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.style.display="none",3200)}
 function showPage(page){
- const allowed=["home","tasks","ads","videos","rewards","referral","wallet"];if(!allowed.includes(page))return;
+ const allowed=["home","tasks","rewards","referral","wallet"];if(!allowed.includes(page))return;
  document.querySelectorAll(".page").forEach(s=>s.classList.toggle("active",s.id===page));
  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
  renderAll();window.scrollTo({top:0,behavior:"smooth"});
@@ -321,8 +295,17 @@ function completeTask(id){
 function renderTasks(){
  document.getElementById("taskList").innerHTML=TASKS.map(t=>{
   const done=state.done.includes(t.id);
-  return `<div class="task"><div class="task-icon">${t.icon}</div><div class="itembody"><strong>${escapeHTML(t.title)}</strong><div class="note">${escapeHTML(t.description)}</div><div style="margin-top:7px" class="points">+${money(t.points)}</div></div><button class="btn small ${done?"secondary":""}" ${done?"disabled":""} onclick="completeTask('${t.id}')">${done?"✓ সম্পন্ন":"সম্পন্ন"}</button></div>`;
+  return `<div class="task"><div class="task-icon">${t.icon}</div><div class="itembody"><strong>${escapeHTML(t.title)}</strong><div class="note">${escapeHTML(t.description)}</div><div style="margin-top:7px" class="points">+${money(t.points)} ডেমো কয়েন</div></div><button class="btn small ${done?"secondary":""}" ${done?"disabled":""} onclick="completeTask('${t.id}')">${done?"✓ সম্পন্ন":"সম্পন্ন"}</button></div>`;
  }).join("");
+ renderVideoTasks();
+}
+function renderVideoTasks(){
+ const renderGroup=(kind)=>VIDEO_TASKS.filter(t=>t.kind===kind).map(t=>{
+  const done=state.done.includes(t.id);
+  return `<div class="video-task-card"><div class="video-task-top"><div class="task-icon">${t.icon}</div><div class="itembody"><strong>${escapeHTML(t.title)}</strong><div class="note">${escapeHTML(t.description)}</div><div class="points" style="margin-top:7px">+${money(t.points)} ডেমো কয়েন</div></div></div><div class="btnrow"><button class="btn full ${done?"secondary":""}" onclick="startVideoTask('${t.id}')">${done?"▶ আবার ভিডিও দেখুন":"▶ Mini App-এ ভিডিও দেখুন"}</button><span class="pill ${done?"":"gray"}">${done?"✓ সম্পন্ন":"অসম্পন্ন"}</span></div></div>`;
+ }).join("");
+ document.getElementById("shortVideoTaskList").innerHTML=renderGroup("shorts")||'<div class="empty">এখনো কোনো Short Video Task নেই।</div>';
+ document.getElementById("longVideoTaskList").innerHTML=renderGroup("long")||'<div class="empty">এখনো কোনো Long Video Task নেই।</div>';
 }
 function formatDate(v){try{return new Date(v).toLocaleString("bn-BD",{year:"numeric",month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"})}catch(e){return""}}
 function renderHistory(){
@@ -333,29 +316,20 @@ function renderHistory(){
  list.innerHTML=state.transactions.map(t=>`<div class="history"><div class="task-icon">${t.type==="ad"?"📺":"🟢"}</div><div class="itembody"><strong>${escapeHTML(t.title)}</strong><div class="note">${escapeHTML(formatDate(t.date))}</div></div><div class="points">+${money(t.amount)}</div></div>`).join("");
 }
 function renderRewards(){
- const first=state.done.length>0,all=TASKS.every(t=>state.done.includes(t.id));
+ const first=state.done.length>0,all=[...TASKS,...VIDEO_TASKS].every(t=>state.done.includes(t.id));
  document.getElementById("firstReward").textContent=first?"সম্পন্ন ✓":"অসম্পন্ন";
  document.getElementById("allReward").textContent=all?"সম্পন্ন ✓":"অসম্পন্ন";
  document.getElementById("firstReward").className="pill "+(first?"":"gray");
  document.getElementById("allReward").className="pill "+(all?"":"gray");
 }
 function renderReferral(){document.getElementById("refId").value=state.refId}
-function todayAdTransactions(){return state.transactions.filter(t=>t.type==="ad"&&t.day===todayKey())}
-function renderAds(){
- const tx=todayAdTransactions(),n=tx.length;
- document.getElementById("adsToday").textContent=n+" / "+DAILY_AD_LIMIT;
- document.getElementById("adCreditToday").textContent=money(tx.reduce((a,t)=>a+t.amount,0));
- document.getElementById("watchAdBtn").disabled=adBusy||n>=DAILY_AD_LIMIT;
- const history=document.getElementById("adHistory");
- history.innerHTML=tx.length?tx.map(t=>`<div class="history"><div class="task-icon">📺</div><div class="itembody"><strong>${escapeHTML(t.title)}</strong><div class="note">${escapeHTML(formatDate(t.date))}</div></div><span class="pill">Confirmed</span></div>`).join(""):'<div class="empty">আজকের বিজ্ঞাপন এখনো সম্পন্ন হয়নি।</div>';
-}
 function renderAll(){
  saveState();
  document.getElementById("homeBalance").textContent=money(state.points);
  document.getElementById("walletBalance").textContent=money(state.points);
  document.getElementById("homeEarned").textContent=money(totalEarned());
  document.getElementById("homeDone").textContent=state.done.length.toLocaleString("bn-BD");
- renderTasks();renderHistory();renderRewards();renderReferral();renderAds();
+ renderTasks();renderHistory();renderRewards();renderReferral();
 }
 function demoAction(action){showToast(action+" সুবিধা এখনো চালু হয়নি। এটি ডেমো হিসাব; বাস্তব টাকা জমা বা তোলা যাবে না।")}
 async function copyText(text){
@@ -366,37 +340,44 @@ async function shareReferral(){
  const link=location.origin+location.pathname+"?ref="+encodeURIComponent(state.refId);
  if(navigator.share){try{await navigator.share({title:"EarnBD",text:"আমার EarnBD ডেমো Referral ID: "+state.refId,url:link})}catch(e){}}else copyText(link)
 }
-function showVideoType(type){
- videoType=type;
- document.getElementById("longVideos").hidden=type!=="long";
- document.getElementById("shortVideos").hidden=type!=="shorts";
- document.getElementById("longTab").className="btn "+(type==="long"?"":"secondary");
- document.getElementById("shortTab").className="btn "+(type==="shorts"?"":"secondary");
+function loadYouTubeAPI(){
+ if(ytApiReady&&window.YT&&window.YT.Player)return Promise.resolve();
+ if(window.YT&&window.YT.Player){ytApiReady=true;return Promise.resolve()}
+ if(ytApiLoading)return new Promise((resolve,reject)=>{let tries=0;const check=()=>{if(window.YT&&window.YT.Player){ytApiReady=true;resolve()}else if(++tries>80)reject(Error("YouTube player load timeout"));else setTimeout(check,250)};check()});
+ ytApiLoading=true;
+ return new Promise((resolve,reject)=>{
+  const previous=window.onYouTubeIframeAPIReady;
+  window.onYouTubeIframeAPIReady=function(){ytApiReady=true;ytApiLoading=false;if(typeof previous==="function")try{previous()}catch(e){}resolve()};
+  const script=document.createElement("script");script.src="https://www.youtube.com/iframe_api";script.onerror=()=>{ytApiLoading=false;reject(Error("YouTube API load failed"))};document.head.appendChild(script);
+  let tries=0;const check=()=>{if(window.YT&&window.YT.Player){ytApiReady=true;ytApiLoading=false;resolve()}else if(++tries>80){ytApiLoading=false;reject(Error("YouTube player load timeout"))}else setTimeout(check,250)};check();
+ });
 }
-function openVideo(inputId){
- const value=document.getElementById(inputId).value.trim();
- let url;try{url=new URL(value)}catch(e){showToast("সঠিক YouTube লিংক দিন।");return}
- if(!["youtube.com","www.youtube.com","m.youtube.com","youtu.be"].includes(url.hostname)){showToast("শুধু YouTube লিংক ব্যবহার করুন।");return}
- window.open(url.href,"_blank","noopener,noreferrer");
- showToast("ভিডিও খোলা হয়েছে। যাচাই ব্যবস্থা না থাকায় কোনো পুরস্কার যোগ হয়নি।");
-}
-/* Monetag reward handling: award only on an explicit valued reward result. */
-async function watchAd(){
- if(adBusy)return;
- if(todayAdTransactions().length>=DAILY_AD_LIMIT){showToast("আজকের ৩০টি বিজ্ঞাপন কাজের সীমা পূর্ণ হয়েছে।");return}
- const sdk=window["show_12015453"];
- if(typeof sdk!=="function"){showToast("বিজ্ঞাপন SDK এখনো প্রস্তুত নয় বা বিজ্ঞাপন পাওয়া যাচ্ছে না। কোনো ক্রেডিট যোগ হয়নি।");return}
- adBusy=true;renderAds();
+async function startVideoTask(id){
+ const task=VIDEO_TASKS.find(t=>t.id===id);if(!task)return;
+ if(!task.videoId){showToast("এই টাস্কের ভিডিও লিংক এখনো যোগ করা হয়নি।");return}
+ activeVideoTaskId=id;
+ const panel=document.getElementById("videoPlayerPanel");panel.hidden=false;
+ document.getElementById("playerTitle").textContent=task.title;
+ document.getElementById("playerReward").textContent="+"+money(task.points)+" ডেমো কয়েন";
+ document.getElementById("playerCaption").textContent=state.done.includes(id)?"এই টাস্ক আগেই সম্পন্ন হয়েছে। আবার ভিডিও দেখতে পারো; কয়েন দ্বিতীয়বার যোগ হবে না।":"ভিডিওটি শেষ পর্যন্ত চালাও। ভিডিও শেষ হলে টাস্ক সম্পন্ন হবে এবং ডেমো কয়েন Wallet-এ যোগ হবে।";
+ panel.scrollIntoView({behavior:"smooth",block:"start"});
  try{
-  const reward=await sdk({type:"end",ymid:"earnbd_"+makeId(),requestVar:"earnbd_demo"});
-  const valued=!!reward&&typeof reward==="object"&&reward.reward_event_type==="valued";
-  if(!valued){showToast("বিজ্ঞাপনের নিশ্চিত পুরস্কার পাওয়া যায়নি। কোনো ক্রেডিট যোগ হয়নি।");return}
-  // Demo credit only. Production cash rewards require trusted server-side postback verification.
-  addTransaction("Monetag নিশ্চিত বিজ্ঞাপন পুরস্কার",10,"ad",todayKey());
-  showToast("বিজ্ঞাপনের valued reward নিশ্চিত হয়েছে। ডেমো হিসাবে "+money(10)+" যোগ হয়েছে।");
- }catch(e){
-  showToast("বিজ্ঞাপন সম্পন্ন/যাচাই করা যায়নি। কোনো ক্রেডিট যোগ হয়নি.");
- }finally{adBusy=false;renderAds()}
+  await loadYouTubeAPI();
+  if(ytPlayer&&typeof ytPlayer.destroy==="function"){try{ytPlayer.destroy()}catch(e){}}
+  const oldPlayerElement=document.getElementById("youtubePlayer");
+  if(oldPlayerElement)oldPlayerElement.remove();
+  const newPlayerElement=document.createElement("div");newPlayerElement.id="youtubePlayer";
+  const playerCaptionElement=document.getElementById("playerCaption");
+  playerCaptionElement.parentNode.insertBefore(newPlayerElement,playerCaptionElement);
+  ytPlayer=new YT.Player("youtubePlayer",{videoId:task.videoId,playerVars:{playsinline:1,rel:0,origin:location.origin,enablejsapi:1},events:{onReady:(event)=>{try{event.target.playVideo()}catch(e){}},onStateChange:(event)=>{if(event.data===YT.PlayerState.ENDED)completeVideoTask(id)}}});
+ }catch(e){showToast("ভিডিও প্লেয়ার লোড হয়নি। ইন্টারনেট বা ভিডিওর Embed সেটিংস পরীক্ষা করুন।")}
+}
+function completeVideoTask(id){
+ const task=VIDEO_TASKS.find(t=>t.id===id);if(!task)return;
+ if(state.done.includes(id)){document.getElementById("playerCaption").textContent="ভিডিও শেষ হয়েছে। এই টাস্কের ডেমো কয়েন আগেই যোগ করা হয়েছে; দ্বিতীয়বার যোগ হবে না।";showToast("এই ভিডিও টাস্কের ডেমো কয়েন আগেই যোগ হয়েছে।");return}
+ state.done.push(id);addTransaction(task.title,task.points,"earn");
+ document.getElementById("playerCaption").textContent="ভিডিও শেষ হয়েছে! টাস্ক সম্পন্ন এবং ডেমো কয়েন Wallet-এ যোগ হয়েছে।";
+ showToast("ভিডিও টাস্ক সম্পন্ন! "+money(task.points)+" ডেমো কয়েন Wallet-এ যোগ হয়েছে।");
 }
 function setAuthBusy(v){authBusy=v;document.getElementById("signupBtn").disabled=v;document.getElementById("loginBtn").disabled=v}
 function setAuthMessage(t){document.getElementById("authStatus").textContent=t}
@@ -441,7 +422,7 @@ async function initAuth(){
   supabaseClient.auth.onAuthStateChange((_event,session)=>updateAuthUI(session));
  }catch(e){updateAuthUI(null);setAuthMessage("লগইন সেবা চালু হয়নি। Supabase সেটিংস পরীক্ষা করুন।");console.error("EarnBD auth error",e)}
 }
-renderAll();showVideoType("long");initAuth();
+renderAll();initAuth();
 </script>
 </body>
-                            </html>
+            </html>
