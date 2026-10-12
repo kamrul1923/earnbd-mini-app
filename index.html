@@ -101,7 +101,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.8;paddi
     <div class="card balance">
       <div class="eyebrow">আপনার Wallet Balance</div>
       <div class="amount" id="homeBalance">৳0.00</div>
-      <div class="sub">পেমেন্ট সুবিধা এখনো চালু হয়নি</div>
+      <div class="sub">আপনার বর্তমান ব্যালেন্স</div>
       <div class="btnrow">
         <button class="btn white" onclick="showPage('wallet')">💰 Wallet খুলুন</button>
         <button class="btn ghost" onclick="showPage('tasks')">কাজ শুরু করুন ↗</button>
@@ -159,7 +159,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.8;paddi
       <p class="muted">প্রতিটি কাজ একবার সম্পন্ন করা যাবে।</p>
       <div id="taskList"></div>
     </div>
-    <div class="info">কাজের অগ্রগতি আপনার অ্যাকাউন্টে সংরক্ষিত হবে। বিজ্ঞাপনের পুরস্কার সাধারণ কাজের বোতাম থেকে দেওয়া হয় না। পেমেন্ট সুবিধা চালু না হওয়া পর্যন্ত এই হিসাব উত্তোলন করা যাবে না।</div>
+    <div class="info">কাজের অগ্রগতি আপনার অ্যাকাউন্টে সংরক্ষিত হবে। বিজ্ঞাপনের পুরস্কার সাধারণ কাজের বোতাম থেকে দেওয়া হয় না।</div>
   </section>
 
   <section id="ads" class="page">
@@ -209,7 +209,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.8;paddi
       <div class="section-head"><h3>🎁 Rewards</h3><span class="pill">MILESTONES</span></div>
       <div class="reward"><div class="task-icon">⭐</div><div class="itembody"><strong>প্রথম কাজ সম্পন্ন</strong><div class="note">একটি সাধারণ Daily Task শেষ করুন।</div></div><span id="firstReward" class="pill gray">অসম্পন্ন</span></div>
       <div class="reward"><div class="task-icon">🏆</div><div class="itembody"><strong>সব সাধারণ কাজ সম্পন্ন</strong><div class="note">তিনটি সাধারণ কাজ শেষ করুন।</div></div><span id="allReward" class="pill gray">অসম্পন্ন</span></div>
-      <div class="info">এগুলো অ্যাপের অগ্রগতির ব্যাজ। পুরস্কার প্রদান ও উত্তোলনের সুবিধা এখনো চালু হয়নি।</div>
+      <div class="info">এগুলো আপনার অ্যাপের অগ্রগতির ব্যাজ।</div>
     </div>
   </section>
 
@@ -219,7 +219,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.8;paddi
       <p class="muted">আপনার Referral ID</p>
       <input id="refId" readonly>
       <div class="btnrow"><button class="btn" onclick="copyReferral()">ID কপি করুন</button><button class="btn secondary" onclick="shareReferral()">Share</button></div>
-      <hr><div class="info">Referral ID ও শেয়ার লিংক বন্ধুদের আমন্ত্রণ জানাতে ব্যবহার করুন। রেফারেল পুরস্কার এখনো চালু হয়নি।</div>
+      <hr><div class="info">Referral ID ও শেয়ার লিংক বন্ধুদের আমন্ত্রণ জানাতে ব্যবহার করুন।</div>
     </div>
   </section>
 
@@ -227,15 +227,15 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.8;paddi
     <div class="card balance">
       <div class="eyebrow">Wallet Balance</div>
       <div class="amount" id="walletBalance">৳0.00</div>
-      <div class="sub">টাকা জমা ও উত্তোলনের সুবিধা এখনো চালু হয়নি</div>
+      <div class="sub">বাংলাদেশি টাকা (৳)</div>
       <div class="btnrow">
         <button class="btn white" onclick="openPaymentForm('deposit')">＋ Deposit Request</button>
         <button class="btn ghost" onclick="openPaymentForm('withdraw')">↗ Withdraw Request</button>
       </div>
     </div>
     <div class="card" id="paymentFormCard" hidden>
-      <div class="section-head"><h3 id="paymentFormTitle">💳 আবেদন</h3><span class="pill gold">MANUAL REVIEW</span></div>
-      <div class="info" id="paymentFormNotice">আবেদন জমা হলে Pending থাকবে। আবেদন জমা দেওয়া মানেই টাকা জমা বা পাঠানো নয়।</div>
+      <div class="section-head"><h3 id="paymentFormTitle">💳 আবেদন</h3></div>
+      <div class="info" id="paymentFormNotice" hidden></div>
       <div id="paymentLoginNotice" class="note" hidden>আবেদন করতে আগে আপনার EarnBD অ্যাকাউন্টে লগইন করুন।</div>
       <form id="paymentRequestForm" onsubmit="submitPaymentRequest(event)">
         <label for="requestAmount">পরিমাণ (বাংলাদেশি টাকা)</label>
@@ -272,7 +272,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.8;paddi
       <div class="section-head"><h3>📜 Transaction History</h3><button class="btn secondary small" onclick="renderAll()">Refresh</button></div>
       <div id="historyList"></div>
     </div>
-    <p class="note" style="text-align:center">পেমেন্ট সুবিধা এখনো চালু হয়নি। আবেদনগুলো ম্যানুয়াল যাচাইয়ের জন্য; আবেদন জমা দিলেই টাকা স্থানান্তর হয় না।</p>
+
   </section>
 </div>
 
@@ -284,7 +284,7 @@ footer{text-align:center;color:var(--muted);font-size:10px;line-height:1.8;paddi
   <button data-page="wallet" onclick="showPage('wallet')"><span class="ico">৳</span>Wallet</button>
 </nav>
 <div id="toast" role="status" aria-live="polite"></div>
-<footer>EarnBD · আবেদনগুলো ম্যানুয়ালি যাচাই করা হয়; স্বয়ংক্রিয় টাকা স্থানান্তর চালু নেই</footer>
+<footer>EarnBD · Earn Together. Grow Together.</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://libtl.com/sdk.js" data-zone="12015453" data-sdk="show_12015453"></script>
@@ -385,7 +385,7 @@ function renderAll(){
  document.getElementById("homeDone").textContent=state.done.length.toLocaleString("bn-BD");
  renderTasks();renderHistory();renderRewards();renderReferral();renderAds();
 }
-function paymentAction(action){showToast(action+" সুবিধা এখনো চালু হয়নি।") }
+function paymentAction(action){openPaymentForm(action)}
 async function copyText(text){
  try{if(navigator.clipboard&&window.isSecureContext)await navigator.clipboard.writeText(text);else{const x=document.createElement("textarea");x.value=text;x.style.position="fixed";x.style.opacity="0";document.body.appendChild(x);x.select();const ok=document.execCommand("copy");x.remove();if(!ok)throw Error("copy failed")}showToast("কপি হয়েছে!")}catch(e){showToast("কপি করা যায়নি। লেখাটি ধরে কপি করুন।")}
 }
@@ -430,7 +430,7 @@ function openPaymentForm(type){
  paymentRequestType=type==="withdraw"?"withdraw":"deposit";
  const card=document.getElementById("paymentFormCard");
  document.getElementById("paymentFormTitle").textContent=paymentRequestType==="deposit"?"💳 Deposit আবেদন":"↗ Withdraw আবেদন";
- document.getElementById("paymentFormNotice").textContent=paymentRequestType==="deposit"?"Deposit আবেদন: ৳২০–৳৩০। টাকা পাঠানোর পর TrxID দিন। আবেদন যাচাই না হওয়া পর্যন্ত Pending থাকবে।":"Withdraw আবেদন: ৳২,০০০–৳৫,০০০। আবেদন জমা মানেই টাকা পাওয়ার নিশ্চয়তা নয়; ম্যানুয়াল যাচাই ও বাস্তব পেমেন্ট প্রয়োজন।";
+ document.getElementById("paymentFormNotice").hidden=true;
  const amount=document.getElementById("requestAmount");amount.min=paymentRequestType==="deposit"?"20":"2000";amount.max=paymentRequestType==="deposit"?"30":"5000";amount.value="";amount.placeholder=paymentRequestType==="deposit"?"২০ থেকে ৩০ টাকা":"২০০০ থেকে ৫০০০ টাকা";
  document.getElementById("depositReferenceBox").hidden=paymentRequestType!=="deposit";
  document.getElementById("requestReference").required=paymentRequestType==="deposit";
@@ -479,7 +479,7 @@ async function submitPaymentRequest(event){
  try{
   const payload={request_type:paymentRequestType,amount,payment_method:method,payment_number:number,transaction_reference:paymentRequestType==="deposit"?reference:null,status:"pending"};
   const {error}=await supabaseClient.from("payment_requests").insert(payload);if(error)throw error;
-  showToast("আবেদন জমা হয়েছে। স্ট্যাটাস Pending—যাচাই না হওয়া পর্যন্ত অপেক্ষা করুন।");closePaymentForm();await loadPaymentRequests();
+  showToast("আবেদন জমা হয়েছে।");closePaymentForm();await loadPaymentRequests();
  }catch(e){console.error("payment request submit",e);showToast(e.message||"আবেদন জমা হয়নি। আবার চেষ্টা করুন।")}
  finally{paymentBusy=false;btn.disabled=false;btn.textContent="আবেদন জমা দিন"}
 }
@@ -539,4 +539,4 @@ async function initAuth(){
 renderAll();showVideoType("long");initAuth();
 </script>
 </body>
-  </html>
+        </html>
