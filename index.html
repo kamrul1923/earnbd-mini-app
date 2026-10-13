@@ -301,50 +301,48 @@ const TASKS=[
 {id:"welcome",title:"Welcome Task",description:"EarnBD ব্যবহার শুরু করুন।",points:5,icon:"🎉"}
 ];
 let supabaseClient=null,currentSession=null,authBusy=false,toastTimer=null,adBusy=false,videoType="long",paymentRequestType="deposit",isEarnBDAdmin=false,paymentBusy=false;
+let activeUserId=null,stateReady=false;
 function defaultState(){return{points:0,done:[],refId:"",transactions:[],adDays:{}}}
 function safeNumber(v){const n=Number(v);return Number.isFinite(n)&&n>=0?Math.floor(n):0}
 function makeId(){return"tx_"+Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
 function makeReferralId(){return"EB"+Math.random().toString(36).slice(2,8).toUpperCase()}
 function validDate(v){return typeof v==="string"&&!Number.isNaN(Date.parse(v))?v:new Date().toISOString()}
 function todayKey(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
-function loadState(){
- let old={};try{old=JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}")||{}}catch(e){}
- const s=defaultState();s.points=safeNumber(old.points);
- if(Array.isArray(old.done))s.done=old.done.filter(id=>TASKS.some(t=>t.id===id));
- else if(old.done&&typeof old.done==="object")s.done=TASKS.filter(t=>old.done[t.id]===true).map(t=>t.id);
- s.refId=typeof old.refId==="string"&&old.refId?old.refId:makeReferralId();
- s.transactions=Array.isArray(old.transactions)?old.transactions.filter(t=>t&&typeof t==="object").map(t=>({id:String(t.id||makeId()),title:String(t.title||"লেনদেন"),amount:safeNumber(t.amount),type:t.type==="legacy"?"legacy":(t.type==="ad"?"ad":"earn"),date:validDate(t.date),day:typeof t.day==="string"?t.day:""})):[];
- if(old.adDays&&typeof old.adDays==="object")s.adDays=old.adDays;
- if(s.transactions.length===0&&s.points>0){
-  let represented=0;
-  for(const task of TASKS){if(s.done.includes(task.id)){s.transactions.push({id:makeId(),title:task.title+" (পুরোনো রেকর্ড)",amount:task.points,type:"earn",date:new Date().toISOString(),day:""});represented+=task.points}}
-  if(s.points>represented)s.transactions.push({id:makeId(),title:"আগের ব্যালেন্স",amount:s.points-represented,type:"legacy",date:new Date().toISOString(),day:""});
- }
- return s;
-}
-let state=loadState();
-function saveState(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}catch(e){showToast("ডেটা সেভ করা যায়নি। ফোনের স্টোরেজ পরীক্ষা করুন।")}}
+let state=defaultState();
+function saveState(){if(!activeUserId)return;try{localStorage.setItem("earnbd_ref_"+activeUserId,state.refId||"")}catch(e){}}
 function money(n){return"৳"+(Math.max(0,Number(n)||0)*DISPLAY_CURRENCY_RATE).toLocaleString("en-BD",{minimumFractionDigits:2,maximumFractionDigits:2})}
 function escapeHTML(v){return String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function showToast(message){const el=document.getElementById("toast");el.textContent=message;el.style.display="block";if(toastTimer)clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.style.display="none",3200)}
 function showPage(page){
  const allowed=["home","tasks","ads","videos","rewards","referral","wallet"];if(!allowed.includes(page))return;
+ if(page!=="home"&&(!currentSession||!currentSession.user)){showToast("আগে লগইন করুন।");return}
  document.querySelectorAll(".page").forEach(s=>s.classList.toggle("active",s.id===page));
  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
  renderAll();window.scrollTo({top:0,behavior:"smooth"});
 }
 function totalEarned(){return state.transactions.reduce((sum,t)=>sum+safeNumber(t.amount),0)}
-function addTransaction(title,amount,type="earn",day=""){
- amount=safeNumber(amount);if(!amount)return;
- state.points+=amount;
- state.transactions.unshift({id:makeId(),title,amount,type,date:new Date().toISOString(),day});
- saveState();renderAll();
+async function addTransaction(title,amount,type="earn",day=""){
+ amount=safeNumber(amount);if(!amount)return false;
+ if(!supabaseClient||!currentSession||!activeUserId||!stateReady){showToast("আগে লগইন করুন।");return false}
+ const createdAt=new Date().toISOString();
+ try{
+  const {data:txData,error:txError}=await supabaseClient.from("user_transactions").insert({user_id:activeUserId,title,amount,type}).select("id,created_at").single();
+  if(txError)throw txError;
+  const nextPoints=state.points+amount,nextTotal=totalEarned()+amount;
+  const {error:walletError}=await supabaseClient.from("user_wallets").update({balance:nextPoints,total_earned:nextTotal,updated_at:createdAt}).eq("user_id",activeUserId);
+  if(walletError)throw walletError;
+  state.points=nextPoints;state.transactions.unshift({id:String(txData.id),title,amount,type,date:txData.created_at||createdAt,day});renderAll();return true;
+ }catch(e){console.error("EarnBD credit error",e);showToast(e.message||"হিসাব সংরক্ষণ হয়নি। আবার চেষ্টা করুন।");return false}
 }
-function completeTask(id){
+async function completeTask(id){
  const task=TASKS.find(t=>t.id===id);if(!task)return;
+ if(!currentSession||!activeUserId||!stateReady){showToast("কাজ করতে আগে লগইন করুন।");return}
  if(state.done.includes(id)){showToast("এই কাজটি আগেই সম্পন্ন হয়েছে।");return}
- state.done.push(id);addTransaction(task.title,task.points,"earn");
- showToast("হিসাবে "+money(task.points)+" যোগ হয়েছে।");
+ try{
+  const {error}=await supabaseClient.from("user_tasks").insert({user_id:activeUserId,task_id:id});if(error)throw error;
+  const ok=await addTransaction(task.title,task.points,"earn");if(!ok){showToast("কাজের হিসাব সংরক্ষণে সমস্যা হয়েছে। আবার লগইন করে দেখুন।");return}
+  state.done.push(id);renderAll();showToast("হিসাবে "+money(task.points)+" যোগ হয়েছে।");
+ }catch(e){console.error("EarnBD task error",e);showToast(e.code==="23505"?"এই কাজটি আগেই সম্পন্ন হয়েছে।":(e.message||"কাজটি সংরক্ষণ করা যায়নি."));await loadUserState(activeUserId)}
 }
 function renderTasks(){
  document.getElementById("taskList").innerHTML=TASKS.map(t=>{
@@ -410,6 +408,7 @@ function openVideo(inputId){
 }
 /* Monetag reward handling: award only on an explicit valued reward result. */
 async function watchAd(){
+ if(!currentSession||!activeUserId||!stateReady){showToast("বিজ্ঞাপনের কাজ করতে আগে লগইন করুন।");return}
  if(adBusy)return;
  if(todayAdTransactions().length>=DAILY_AD_LIMIT){showToast("আজকের ৩০টি বিজ্ঞাপন কাজের সীমা পূর্ণ হয়েছে।");return}
  const sdk=window["show_12015453"];
@@ -493,13 +492,50 @@ async function reviewPaymentRequest(id,status){
 }
 function setAuthBusy(v){authBusy=v;document.getElementById("signupBtn").disabled=v;document.getElementById("loginBtn").disabled=v}
 function setAuthMessage(t){document.getElementById("authStatus").textContent=t}
-function updateAuthUI(session){
+async function migrateLegacyAdminState(userId,wallet,transactions){
+ if(safeNumber(wallet&&wallet.balance)>0||(transactions||[]).length)return false;
+ let old={};try{old=JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}")||{}}catch(e){}
+ const oldPoints=safeNumber(old.points);if(!oldPoints)return false;
+ const done=Array.isArray(old.done)?old.done.filter(id=>TASKS.some(t=>t.id===id)):old.done&&typeof old.done==="object"?TASKS.filter(t=>old.done[t.id]===true).map(t=>t.id):[];
+ let oldTx=Array.isArray(old.transactions)?old.transactions.filter(t=>t&&typeof t==="object"&&safeNumber(t.amount)>0).map(t=>({user_id:userId,title:String(t.title||"আগের হিসাব"),amount:safeNumber(t.amount),type:t.type==="ad"?"ad":t.type==="legacy"?"legacy":"earn"})):[];
+ if(!oldTx.length){let represented=0;for(const task of TASKS){if(done.includes(task.id)){oldTx.push({user_id:userId,title:task.title+" (আগের হিসাব)",amount:task.points,type:"earn"});represented+=task.points}}if(oldPoints>represented)oldTx.push({user_id:userId,title:"আগের ব্যালেন্স",amount:oldPoints-represented,type:"legacy"})}
+ const sum=oldTx.reduce((a,t)=>a+safeNumber(t.amount),0);
+ try{
+  if(done.length){const {error}=await supabaseClient.from("user_tasks").upsert(done.map(task_id=>({user_id:userId,task_id})),{onConflict:"user_id,task_id",ignoreDuplicates:true});if(error)throw error}
+  if(oldTx.length){const {error}=await supabaseClient.from("user_transactions").insert(oldTx);if(error)throw error}
+  const {error:walletError}=await supabaseClient.from("user_wallets").update({balance:oldPoints,total_earned:sum,updated_at:new Date().toISOString()}).eq("user_id",userId);if(walletError)throw walletError;
+  localStorage.removeItem(STORAGE_KEY);return true;
+ }catch(e){console.error("Legacy balance migration error",e);return false}
+}
+async function loadUserState(userId){
+ stateReady=false;state=defaultState();state.refId=localStorage.getItem("earnbd_ref_"+userId)||makeReferralId();renderAll();
+ try{
+  const {error:upsertError}=await supabaseClient.from("user_wallets").upsert({user_id:userId,balance:0,total_earned:0},{onConflict:"user_id",ignoreDuplicates:true});if(upsertError)throw upsertError;
+  let [walletResult,tasksResult,txResult]=await Promise.all([
+   supabaseClient.from("user_wallets").select("balance,total_earned").eq("user_id",userId).single(),
+   supabaseClient.from("user_tasks").select("task_id").eq("user_id",userId),
+   supabaseClient.from("user_transactions").select("id,title,amount,type,created_at").eq("user_id",userId).order("created_at",{ascending:false}).limit(500)
+  ]);
+  if(walletResult.error)throw walletResult.error;if(tasksResult.error)throw tasksResult.error;if(txResult.error)throw txResult.error;
+  const {data:adminFlag,error:adminError}=await supabaseClient.rpc("is_earnbd_admin");
+  if(!adminError&&adminFlag===true){const migrated=await migrateLegacyAdminState(userId,walletResult.data,txResult.data);if(migrated){[walletResult,tasksResult,txResult]=await Promise.all([
+   supabaseClient.from("user_wallets").select("balance,total_earned").eq("user_id",userId).single(),
+   supabaseClient.from("user_tasks").select("task_id").eq("user_id",userId),
+   supabaseClient.from("user_transactions").select("id,title,amount,type,created_at").eq("user_id",userId).order("created_at",{ascending:false}).limit(500)
+  ]);if(walletResult.error)throw walletResult.error;if(tasksResult.error)throw tasksResult.error;if(txResult.error)throw txResult.error}}
+  state.points=safeNumber(walletResult.data.balance);state.done=(tasksResult.data||[]).map(x=>x.task_id).filter(id=>TASKS.some(t=>t.id===id));
+  state.transactions=(txResult.data||[]).map(t=>({id:String(t.id),title:String(t.title||"লেনদেন"),amount:safeNumber(t.amount),type:t.type==="ad"?"ad":t.type==="legacy"?"legacy":"earn",date:validDate(t.created_at),day:""}));
+  state.refId=localStorage.getItem("earnbd_ref_"+userId)||makeReferralId();stateReady=true;saveState();renderAll();
+ }catch(e){console.error("EarnBD account data load error",e);state=defaultState();state.refId=localStorage.getItem("earnbd_ref_"+userId)||makeReferralId();stateReady=false;renderAll();showToast("অ্যাকাউন্টের ডেটা লোড হয়নি। Supabase টেবিল ও অনুমতি পরীক্ষা করুন।")}
+}
+async function updateAuthUI(session){
  currentSession=session||null;const logged=!!(session&&session.user);
- document.getElementById("authForms").hidden=logged;
- document.getElementById("loggedInBox").hidden=!logged;
+ document.getElementById("authForms").hidden=logged;document.getElementById("loggedInBox").hidden=!logged;
  setAuthMessage(logged?"আপনি সফলভাবে লগইন করেছেন।":"অ্যাকাউন্ট তৈরি করুন অথবা লগইন করুন।");
- if(!logged){document.getElementById("paymentFormCard").hidden=true;document.getElementById("myPaymentRequests").innerHTML='<div class="empty">নিজের আবেদন দেখতে আগে লগইন করুন।</div>';document.getElementById("adminRequestsCard").hidden=true;isEarnBDAdmin=false}
- else if(supabaseClient)setTimeout(()=>loadPaymentRequests(),0);
+ document.querySelectorAll("#home > .card").forEach(card=>{const authCard=!!card.querySelector("#authForms");card.hidden=!logged&&!authCard});
+ document.querySelector("nav").hidden=!logged;document.querySelectorAll(".page").forEach(page=>{if(page.id!=="home")page.hidden=!logged});
+ if(!logged){activeUserId=null;stateReady=false;state=defaultState();document.getElementById("paymentFormCard").hidden=true;document.getElementById("myPaymentRequests").innerHTML='<div class="empty">নিজের আবেদন দেখতে আগে লগইন করুন।</div>';document.getElementById("adminRequestsCard").hidden=true;isEarnBDAdmin=false;showPage("home");renderAll()}
+ else if(supabaseClient){const uid=session.user.id;if(activeUserId!==uid){activeUserId=uid;await loadUserState(uid)}setTimeout(()=>loadPaymentRequests(),0)}
 }
 function getAuthInput(){
  const email=document.getElementById("email").value.trim(),password=document.getElementById("password").value;
@@ -536,7 +572,7 @@ async function initAuth(){
   supabaseClient.auth.onAuthStateChange((_event,session)=>updateAuthUI(session));
  }catch(e){updateAuthUI(null);setAuthMessage("লগইন সেবা চালু হয়নি। Supabase সেটিংস পরীক্ষা করুন।");console.error("EarnBD auth error",e)}
 }
-renderAll();showVideoType("long");initAuth();
+state=defaultState();renderAll();showVideoType("long");initAuth();
 </script>
 </body>
- </html>
+             </html>
